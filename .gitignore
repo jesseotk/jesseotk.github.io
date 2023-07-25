@@ -1,0 +1,5 @@
+*.lock
+
+**/resources
+**/drafts
+**/themes
