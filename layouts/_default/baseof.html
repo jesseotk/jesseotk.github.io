@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="{{ $.Site.LanguageCode }}">
+    {{- partial "head.html" . -}}
+    <body>
+        {{- partialCached "header.html" . .Page -}}
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                {{- block "main" . }}{{- end }}
+            </div>
+        </main>
+    </body>
+</html>

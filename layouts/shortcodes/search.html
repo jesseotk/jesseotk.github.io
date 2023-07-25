@@ -1,0 +1,43 @@
+<div class="search js-only">
+  <input type="text" id="search" placeholder="search...">
+  <button id="clear-search">
+      clear
+  </button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  for (e of document.getElementsByClassName("js-only")) {
+    e.classList.remove("js-only");
+  }
+
+  const posts = document.querySelectorAll("#posts li");
+  const search = document.getElementById("search");
+  const clearSearch = document.getElementById("clear-search");
+
+  search.addEventListener("input", () => {
+    // grab search input value
+    const searchText = search.value.toLowerCase().trim().normalize('NFD').replace(/\p{Diacritic}/gu, "");
+    const searchTerms = searchText.split(" ");
+    const hasFilter = searchText.length > 0;
+
+    posts.forEach(post => {
+      const searchString = `${post.textContent} ${post.dataset.tags}`.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, "");
+      const isMatch = searchTerms.every(term => searchString.includes(term));
+
+      post.hidden = !isMatch;
+      post.classList.toggle("matched-post", hasFilter && isMatch);
+    })
+  })
+
+  clearSearch.addEventListener("click", () => {
+    search.value = "";
+    posts.forEach(post => {
+      post.hidden = false;
+      post.classList.remove("matched-post");
+    })
+
+    oldheading.classList.remove("hidden");
+  })
+})
+</script>

@@ -1,0 +1,376 @@
+// -------------- THEME SWITCHER -------------- //
+//@mixin dark-appearance {
+//  filter: invert(1);
+//  img {
+//    filter: invert(1);
+//
+//    &.ioda { filter: invert(0); }
+//  }
+//}
+//
+//body[a="dark"] { @include dark-appearance; }
+//
+//
+//@media (prefers-color-scheme: dark) {
+//  body[a="auto"] { @include dark-appearance; }
+//}
+// -------------------------------------------- //
+
+// bg color is also needed in html in order to
+// block body's background propagation
+// see: https://stackoverflow.com/a/61265706
+
+// --------------- SET VARIABLES -------------- //
+:root {
+    --main-width: 1200px;
+    --nav-width: 1400px;
+    --entry: rgb(46,46,51);
+    --border-radius: 5px;
+    --theme: rgb(17,17,27);
+    --entry: rgb(46,46,51);
+    --primary: rgb(205,214,244);
+    --secondary: rgb(186,194,222);
+    --tertiary: rgb(166,173,200);
+    --link: rgb(249,226,175);
+    --button: rgb(255,124,113);
+    --content: rgb(196,196,196);
+    --hljs-bg: rgb(46,200,46);
+    --code-bg: rgb(49,50,68);
+    --border: rgb(51,51,51);
+}
+
+.light {
+    --theme: rgb(220,224,232);
+    --primary: rgb(76,79,105);
+    --secondary: rgb(92,95,119);
+    --tertiary: rgb(108,111,133);
+    --link: rgb(30,102,245);
+}
+
+// ------------------- NAVBAR ----------------- //
+
+.topnav-container {
+    position: relative;
+    max-width: var(--nav-width);
+    margin: auto;
+    overflow: hidden;
+}
+
+.topnav-container ul {
+    list-style: none;
+    float: right;
+    margin: 0;
+    padding: 5px 5px;
+}
+
+.topnav-container a {
+    display: inline-block;
+    height: 100%;
+    font-size: 12px;
+    padding: 2px 4px;
+    margin: 0;
+}
+
+// NAVBAR // --------------- THEME SWITCHER ------------- //
+
+.theme-toggle {
+    display: inline-block;
+}
+
+input {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+input:checked + label svg.sun {
+    visibility: hidden;
+}
+
+input:not(:checked) + label svg.moon {
+    visibility: hidden;
+}
+
+label {
+    cursor: pointer;
+}
+
+label svg {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+svg.sun path {
+    fill: var(--primary);
+}
+
+#ChangeTheme {
+    height: 0;
+    width: 0;
+}
+// ---------------- FRONT PAGE ---------------- //
+.fp-content h3 {
+    text-align: center;
+    padding: 10px 0;
+    margin: 10px 0;
+}
+
+.fp-links ul {
+    text-align: center;
+    list-style: none;
+    padding: 0;
+}
+
+.fp-links ul li {
+    display: inline-block;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.fp-links ul li a {
+    padding: 6px 12px;
+}
+
+
+// ------------------- LIST ------------------- //
+ul#posts {
+    list-style: none;
+    padding: 0;
+}
+
+li#post {
+    padding: 10px;
+    margin: 0 0 10px 0;
+}
+
+#post p {
+    font-style: italic;
+    font-size: 14px;
+    padding: 0 0 0 10px; 
+    margin: 0 0 0 10px;
+    border-left: solid 1px var(--tertiary);
+}
+
+// ------------------ ARTICLE ----------------- //
+
+article img {
+    width: 90%;
+    margin-bottom: 10px;
+    border-radius: var(--border-radius);
+}
+
+ul.post-tags {
+    list-style: none;
+    padding: 0;
+    font-size: 12px;
+}
+
+ul.post-tags li {
+    display: inline-block;
+}
+
+ul.post-tags li a {
+    padding: 2px 4px;
+}
+
+footer.post-footer {
+    border-top: solid 1px var(--tertiary);
+}
+
+// -------------------------------------------- //
+
+html, body { background: var(--theme); }
+
+html { height: 100%; }
+
+body {
+  color: var(--primary);
+  font-family: monospace;
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0;
+  min-height: 100%;
+  overflow-wrap: break-word;
+}
+
+.post-meta {
+    font-size: 10px;
+    border-bottom: solid 1px var(--tertiary);
+    margin: 0;
+}
+
+h2, h3, h4, h5, h6 { margin-top: 3rem; }
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+    display: inline-flex;
+    color: var(--secondary);
+    margin-inline-start: 8px;
+    font-weight: 500;
+    user-select: none;
+}
+
+a.anchor:hover {
+    color: var(--theme);
+}
+
+.post-title {
+    margin-bottom: 10px;
+}
+
+hr { margin: 2rem 0; }
+
+p { margin: 1rem 0; }
+
+a {
+    color: var(--link);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+    background: var(--link);
+    color: var(--theme);
+}
+
+ul {
+}
+
+li {
+    margin: 0.4rem 0;
+}
+
+*:target {
+    background: none;
+}
+
+.w {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.2rem 2rem;
+}
+
+.toc {
+  border: thin solid black;
+  padding: 1rem;
+}
+
+hr {
+  text-align: center;
+  border: 0;
+
+  &:before { content: '/////' }
+  &:after { content: attr(data-content) '/////' }
+}
+
+pre {
+  background: black;
+  padding: 1em;
+  overflow-x: auto; /* Fix pre content overflowing parent without scroll bar */
+}
+
+table {
+    width: 100%;
+    font-size: 12px;
+}
+
+table, th, td {
+  border: thin solid var(--tertiary);
+  border-collapse: collapse;
+  padding: 0.4rem;
+}
+
+p code {
+  color: white;
+  background: var(--code-bg); 
+  font-size: 14px;
+  padding: 1px 4px;
+  border-radius: var(--border-radius);
+}
+
+div pre {
+    border-radius: 6px;
+}
+
+code.has-jax {
+  -webkit-font-smoothing: antialiased;
+  background: inherit !important;
+  border: none !important;
+  font-size: 100%;
+}
+
+blockquote {
+  font-style: italic;
+  border-left: thin solid var(--primary);
+  padding: 1rem;
+
+  p { margin: 0; }
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+figcaption {
+  text-align: center;
+  opacity: 0.5;
+}
+
+.js-only { display: none ; }
+
+input#search {
+  all: unset;
+  color: var(--primary);
+  padding: 0.4rem 0.6rem;
+  border: solid 1px var(--primary);
+  width: 100%;
+}
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+button#clear-search {
+  all: unset;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 100%;
+  width: 60px;
+  padding-left: 8px;
+  color: var(--primary);
+  cursor: pointer;
+}
+button#clear-search:hover {
+  color: var(--secondary);
+}
+
+
+// --------------- BREADCRUMBS ---------------- //
+
+ol.breadcrumbs-list {
+    list-style: none;
+    padding: 0;
+}
+
+ol.breadcrumbs-list li {
+    display: inline;
+    font-size: 12px;
+}
+
+li.breadcrumbs-active a {
+    font-weight: bold;
+}
