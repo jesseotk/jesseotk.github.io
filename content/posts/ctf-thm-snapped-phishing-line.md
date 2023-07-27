@@ -7,7 +7,7 @@ tags: ["ctf", "writeup"]
 category: ["blog"]
 author: "linutti"
 toc: true
-draft: true
+draft: false
 disableanchors: false
 disablebreadcrumbs: false
 disablereadingtime: false
@@ -30,11 +30,12 @@ ___
 > 4. Using CTI-related tooling to gather more information about the adversary.
 > 5. Analysing the phishing kit to gather more information about the adversary.
 
-Let's launch the vm and dive right in!
+With that out of the way, let's launch the vm and dive right in!
 
 ### Q1: Who is the individual who received an email attachment containing a PDF?
 
-This first one doesn't require a lot of researching. Looking through the emails we find the email that contains the `.pdf` file called **Quote.pdf** which was sent to ***William \*\*\*\****.
+This first one doesn't require a lot of research. Looking through the emails provided to us in the vm we can quite easily find the email that contains the `.pdf` attachment. 
+It's a file called **Quote.pdf** which was sent to ***William \*\*\*\****.
 
 ![00](/pics/snapped-phishing-line-ctf-writeup-00.webp)
 
@@ -60,17 +61,19 @@ Open up Firefox within the VM and navigate to CyberShef (can be found in the boo
 
 ### Q4: What is the URL to the .zip archive of the phishing kit? (defanged format)
 
-Looking at the URL we see that there is a directory called `/data`. Let's have a closer look and see if we can access it.
+Looking at the URL we see that there is a directory called `/data`. Hmm... can we access that directory?🤔
 
 ![04](/pics/snapped-phishing-line-ctf-writeup-04.webp)
 
-And would you look at that! We have access and there is the **Update365.zip** file. Let's copy the URL and defang it like we did before...
+Yes, yes we can! We have access and there is the **Update365.zip** file.
+Let's copy the URL and defang it just like we did with the URL before...
 
 ![05](/pics/snapped-phishing-line-ctf-writeup-05.webp)
 
 ### Q5: What is the SHA256 hash of the phishing kit archive?
 
-We need to download the `.zip` to get the SHA256. Running `sha256sum Update365.zip` we get the SHA256 hash of the archive.
+We need to download the `.zip` to get the SHA256. Once downloaded,
+we can run the command `sha256sum Update365.zip` to get the SHA256 hash of the archive.
 
 ![06](/pics/snapped-phishing-line-ctf-writeup-06.webp)
 
@@ -85,19 +88,20 @@ Here we can see the *First Submission* date and time.
 
 ### Q7: When was the phishing domain that was used to host the phishing kit archive first registered? (format: YYYY-MM-DD)
 
-For this one, let's navigate over to ThreatBook and search for the URL "*kennaroads.buzz*".
+Now let's navigate over to ThreatBook and search for the URL "*kennaroads.buzz*".
 Under the *Whois* tab we can see the date and time when the domain was registered.
 
 ![08](/pics/snapped-phishing-line-ctf-writeup-08.webp)
 
 ### Q8: What was the email address of the user who submitted their password twice?
 
-Going back over to the `/data` directory we discovered earlier, we see that there is another directory called `/Update365` within the `/data` directory.
-If we open that up we find a delicious looking log file called **log.txt**.
+Going back over to the `/data` directory we discovered earlier,
+we see that there is another directory called `/Update365` within the `/data` directory.
+If we open that up we find a delicious looking *log* file called **log.txt**.
 
 ![09](/pics/snapped-phishing-line-ctf-writeup-09.webp)
 
-Opening up the **log.txt** file we can see all the saved data from the form on the phishing website.
+Opening up the **log.txt** file gives us all the saved data from the form on the phishing website.
 Upon further inspection, we can see that one poor employee submitted their password twice.
 
 ![10](/pics/snapped-phishing-line-ctf-writeup-10.webp)
@@ -147,8 +151,11 @@ yield a successful outcome!
 
 ![14](/pics/snapped-phishing-line-ctf-writeup-14.webp)
 
-Let's see what this string is using CyberShef's `Magic` operation. It's base64 and the string is reversed.
+Let's see what this string is by using CyberShef's `Magic` operation. It's Base64 and the string is reversed.
 Using CyberShef's `From Base64` operation in combination with `Reverse` we should get the desired output.
+
+NOTE: You cannot reverse the Base64 string before decoding it. The string has to be decoded and then reversed.
+Kind of obvious in this case but good to keep in mind.
 
 ![15](/pics/snapped-phishing-line-ctf-writeup-15.webp)
 
