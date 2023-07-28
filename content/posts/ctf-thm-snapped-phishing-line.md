@@ -2,7 +2,7 @@
 title: "CTF writeup: Snapped Phish-ing Line (TryHackMe)"
 hidedescription: false
 description: "Writeup of the recently launched CTF challenge called \"Snapped Phish-ing Line\". Follow along in case you get stuck at one of the tasks!"
-date: 2023-07-10T11:30:03+00:00
+date: 2023-07-28T00:00:00+00:00
 tags: ["ctf", "writeup"]
 category: ["blog"]
 author: "linutti"
