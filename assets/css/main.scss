@@ -228,14 +228,14 @@ h4:hover .anchor,
 h5:hover .anchor,
 h6:hover .anchor {
     display: inline-flex;
-    color: var(--secondary);
+    color: var(--link);
     margin-inline-start: 8px;
     font-weight: 500;
     user-select: none;
 }
 
 a.anchor:hover {
-    color: var(--theme);
+    text-decoration: underline;
 }
 
 .post-title {
