@@ -52,7 +52,7 @@ title = 'linutti'
     date_format = "02.01.2006"
     show_description = true
   [params.editPost]
-    URL = "https://github.com/linutti/linutti.github.io/content"
+    URL = "https://github.com/linutti/linutti.com/blob/main/content"
     text = "SUGGEST CHANGES"
     append_file_path = true
 
