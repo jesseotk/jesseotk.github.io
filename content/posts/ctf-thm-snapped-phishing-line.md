@@ -13,9 +13,7 @@ disablebreadcrumbs: false
 disablereadingtime: false
 disablewordcount: false
 ---
-___
 Link to challenge: [Snapped Phish-ing line](https://tryhackme.com/room/snappedphishingline)
-___
 
 ### The task
 
