@@ -28,7 +28,7 @@ concerns with email service providers and/or limitations of limitations within t
 I've been a customer with Proton Mail for some time now, and I have been quite pleased with the service.
 It's privacy focused (at least they claim it is, mkay) and works well for sending and receiving emails.
 However, when it comes to features, it leaves a little something to be desired.
-For instance, on the **Unlimited** plan for 12,99â‚¬/month you get to use 3 custom domains and a total of 15 aliases.
+For instance, on the **Unlimited** plan for 12,99 €/month you get to use 3 custom domains and a total of 15 aliases.
 The 15 aliases are enough for most people, but problems arise when you want to have separation between the aliases and your account.
 The alises are configured to be able to be used to log into your account with the *"master"* password.
 What if I want to set up aliases to use for account separation on other services I use?
