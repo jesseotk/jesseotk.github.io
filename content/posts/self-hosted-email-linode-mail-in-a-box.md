@@ -53,8 +53,8 @@ go full manual, balls to the wall, lord take the wheel way where we install and
 configure everything by ourselves? Or do we want to use a pre-packaged solution
 to make this process just a little bit less miserable?
 
-For me, I'll go with a pre-packaged solution called _*Mail-in-a-Box*_.
+For me, I'll go with a pre-packaged solution called <u>Mail-in-a-Box</u>.
 
-The VPS provider I'm going to be using is _*Linode*_. They actually have a very nice
-and handy guide available on their website for us to follow. However, I'm going
+The VPS provider I'm going to be using is <u>Linode</u>. They actually have a very nice
+and handy [guide](https://www.linode.com/docs/guides/mail-in-a-box-email-server/) available on their website for us to follow. However, I'm going
 to be setting up multiple domains on the same instance of Mail-in-a-Box.
