@@ -1,6 +1,6 @@
 ---
 title: "CTF writeup: The Greenholt Phish (TryHackMe)"
-description: "Description here"
+description: "My writeup of the CTF on TryHackMe called \"The Greenholt Phish\". Follow along in case you get stuck at one of the tasks!"
 hidedescription: false
 date: 2023-08-16T02:24:38+03:00
 tags: ["ctf", "writeup"]
