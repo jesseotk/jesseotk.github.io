@@ -21,6 +21,8 @@ title = 'linutti'
         weight = 30
 [markup]
   [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
     [markup.goldmark.parser]
       [markup.goldmark.parser.attribute]
         block = true
@@ -57,4 +59,4 @@ title = 'linutti'
     append_file_path = true
 
 [outputs]
-    home = ["HTML", "RSS"]
+    home = ["HTML", "RSS", "JSON"]
