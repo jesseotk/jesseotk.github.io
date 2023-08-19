@@ -59,4 +59,4 @@ title = 'linutti'
     append_file_path = true
 
 [outputs]
-    home = ["HTML", "RSS", "JSON"]
+    home = ["HTML", "RSS"]
