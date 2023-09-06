@@ -35,19 +35,19 @@ With that out of the way, let's launch the vm and dive right in!
 This first one doesn't require a lot of research. Looking through the emails provided to us in the vm we can quite easily find the email that contains the `.pdf` attachment. 
 It's a file called **Quote.pdf** which was sent to ***William \*\*\*\****.
 
-![00](/pics/snapped-phishing-line-ctf-writeup-00.webp)
+![00](/pics/ctf-thm-snapped-phishing-line/00.webp)
 
 ### Q2: What email address was used by the adversary to send the phishing emails?
 
 The email address from which these emails were sent from can be seen in the *From* header of the email (***Accounts.\*\*\*\*@\*\*\*\*.icu***).
 
-![01](/pics/snapped-phishing-line-ctf-writeup-01.webp)
+![01](/pics/ctf-thm-snapped-phishing-line/01.webp)
 
 ### Q3: What is the redirection URL to the phishing page for the individual Zoe Duncan? (defanged format)
 
 Saving one of the html attachments from one of the phishing emails and opening it in a text editor, we find the redirection URL. Let's copy it and defang it.
 
-![02](/pics/snapped-phishing-line-ctf-writeup-02.webp)
+![02](/pics/ctf-thm-snapped-phishing-line/02.webp)
 
 Open up Firefox within the VM and navigate to CyberShef (can be found in the bookmarks).
 1. Search for "*defang*"
@@ -55,25 +55,25 @@ Open up Firefox within the VM and navigate to CyberShef (can be found in the boo
 3. Paste the URL in the *Input* box
 4. Copy the defanged URL from the *Output* box (***hxxp[://]kennaroads[.]...***)
 
-![03](/pics/snapped-phishing-line-ctf-writeup-03.webp)
+![03](/pics/ctf-thm-snapped-phishing-line/03.webp)
 
 ### Q4: What is the URL to the .zip archive of the phishing kit? (defanged format)
 
 Looking at the URL we see that there is a directory called `/data`. Hmm... can we access that directory?🤔
 
-![04](/pics/snapped-phishing-line-ctf-writeup-04.webp)
+![04](/pics/ctf-thm-snapped-phishing-line/04.webp)
 
 Yes, yes we can! We have access and there is the **Update365.zip** file.
 Let's copy the URL and defang it just like we did with the URL before...
 
-![05](/pics/snapped-phishing-line-ctf-writeup-05.webp)
+![05](/pics/ctf-thm-snapped-phishing-line/05.webp)
 
 ### Q5: What is the SHA256 hash of the phishing kit archive?
 
 We need to download the `.zip` to get the SHA256. Once downloaded,
 we can run the command `sha256sum Update365.zip` to get the SHA256 hash of the archive.
 
-![06](/pics/snapped-phishing-line-ctf-writeup-06.webp)
+![06](/pics/ctf-thm-snapped-phishing-line/06.webp)
 
 ### Q6: When was the phishing kit archive first submitted? (format: YYYY-MM-DD HH:MM:SS UTC)
 
@@ -82,14 +82,14 @@ It's detected as malicious by 22/61 vendors (that's good!), but that's not what 
 We want to find out when it was first submitted. For that we need to navigate to the *Details* tab and scroll down to *History*.
 Here we can see the *First Submission* date and time.
 
-![07](/pics/snapped-phishing-line-ctf-writeup-07.webp)
+![07](/pics/ctf-thm-snapped-phishing-line/07.webp)
 
 ### Q7: When was the phishing domain that was used to host the phishing kit archive first registered? (format: YYYY-MM-DD)
 
 Now let's navigate over to ThreatBook and search for the URL "*kennaroads.buzz*".
 Under the *Whois* tab we can see the date and time when the domain was registered.
 
-![08](/pics/snapped-phishing-line-ctf-writeup-08.webp)
+![08](/pics/ctf-thm-snapped-phishing-line/08.webp)
 
 ### Q8: What was the email address of the user who submitted their password twice?
 
@@ -97,12 +97,12 @@ Going back over to the `/data` directory we discovered earlier,
 we see that there is another directory called `/Update365` within the `/data` directory.
 If we open that up we find a delicious looking *log* file called **log.txt**.
 
-![09](/pics/snapped-phishing-line-ctf-writeup-09.webp)
+![09](/pics/ctf-thm-snapped-phishing-line/09.webp)
 
 Opening up the **log.txt** file gives us all the saved data from the form on the phishing website.
 Upon further inspection, we can see that one poor employee submitted their password twice.
 
-![10](/pics/snapped-phishing-line-ctf-writeup-10.webp)
+![10](/pics/ctf-thm-snapped-phishing-line/10.webp)
 
 ### Q9: What was the email address used by the adversary to collect compromised credentials?
 
@@ -120,7 +120,7 @@ Piping the output to `sort` and then to `uniq` gives us more readable output.
 
 As you can see below, this output gives us 3 results. 2 of which are useful and 1 red herring!
 
-![11](/pics/snapped-phishing-line-ctf-writeup-11.webp)
+![11](/pics/ctf-thm-snapped-phishing-line/11.webp)
 
 ### Q10: The adversary used other email addresses in the obtained phishing kit. What is the email address that ends in "@gmail.com"?
 
@@ -140,14 +140,14 @@ the only direcoty we haven't yet taken a look at is `/data/Update356/office365`.
 However, trying to open the directory takes us down the path to some destination
 which gives us a `Not Found` error:
 
-![13](/pics/snapped-phishing-line-ctf-writeup-13.webp)
+![13](/pics/ctf-thm-snapped-phishing-line/13.webp)
 
 I wonder... can the flag be in the `/data/Update356/office365` directory?
 
 Trying to manually look inside the `/office365` dir for a `flag.txt` file does sure enough
 yield a successful outcome!
 
-![14](/pics/snapped-phishing-line-ctf-writeup-14.webp)
+![14](/pics/ctf-thm-snapped-phishing-line/14.webp)
 
 Let's see what this string is by using CyberShef's `Magic` operation. It's Base64 and the string is reversed.
 Using CyberShef's `From Base64` operation in combination with `Reverse` we should get the desired output.
@@ -155,7 +155,7 @@ Using CyberShef's `From Base64` operation in combination with `Reverse` we shoul
 NOTE: You cannot reverse the Base64 string before decoding it. The string has to be decoded and then reversed.
 Kind of obvious in this case but good to keep in mind.
 
-![15](/pics/snapped-phishing-line-ctf-writeup-15.webp)
+![15](/pics/ctf-thm-snapped-phishing-line/15.webp)
 
 And there we have it!
 
