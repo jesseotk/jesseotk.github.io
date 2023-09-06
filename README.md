@@ -20,4 +20,5 @@ This is the git repository for [my website](https://linutti.com). The site is po
 | disablebreadcrumbs  | boolean  | true \| false  |
 | disablereadingtime  | boolean  | true \| false  |
 | disablewordcount  | boolean  | true \| false  |
+| hidetags | boolean | true \| false |
 | editPost -> disable  | boolean  | true \| false  |
