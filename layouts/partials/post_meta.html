@@ -8,10 +8,6 @@
 {{- $scratch.Add "meta" (slice (printf "%d min read" .ReadingTime)) }}
 {{- end }}
 
-{{- if not .Params.disablewordcount -}}
-{{- $scratch.Add "meta" (slice (printf "%d words" .WordCount)) }}
-{{- end }}
-
 {{- with (partial "author.html" .) }}
 {{- $scratch.Add "meta" (slice .) }}
 {{- end }}

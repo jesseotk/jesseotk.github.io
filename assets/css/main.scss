@@ -170,8 +170,8 @@ ul#posts {
 }
 
 li#post {
-    padding: 0;
-    margin: 30px 0 10px 0;
+    padding: 0 0 10px 0;
+    margin: 25px 0 25px 0;
     position: relative;
     border-bottom: dotted 2px var(--quaternary);
 }
@@ -204,6 +204,11 @@ li#post {
 
 .post-title a:hover {
     color: var(--w-accent);
+}
+
+span.post-tags {
+    color: var(--w-quaternary);
+    font-size: 12px;
 }
 
 // ------------------ ARTICLE ----------------- //

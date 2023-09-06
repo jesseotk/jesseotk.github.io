@@ -39,7 +39,7 @@ title = 'linutti'
     lineNumbersInTable = true
     noClasses = true
     noHl = false
-    style = 'modus-vivendi'
+    style = 'rose-pine'
     tabWidth = 4
   [markup.tableOfContents]
     startLevel = 2

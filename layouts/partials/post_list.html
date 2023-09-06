@@ -32,14 +32,25 @@
                 <a href="{{ $post.Permalink | relURL }}">{{ $post.Title }}</a>
             </h1>
             <div class="post-meta">
-                <span>{{- ($post.Date | time.Format site.Params.theme_config.date_format) }}</span>
+                {{- partial "post_meta.html" . -}}
             </div>
+
             {{- if not .Params.hidedescription -}}
                 {{- if .Params.description -}}
                 <p>{{ $post.Description }}</p>
                 {{- else -}}
                 <p>{{ $post.Summary }}{{ if .Truncated }}...{{ end }}</p>
                 {{ end }}
+            {{ end }}
+
+            {{ if .Params.tags }}
+                <span class="post-tags">
+                    {{ range .Params.tags }}
+                        <a href="{{ (urlize (printf "tags/%s/" . )) | absLangURL }}">
+                            #{{- . -}}
+                        </a>&nbsp;
+                    {{ end }}
+                </span>
             {{ end }}
         </li>
         {{ end }}
