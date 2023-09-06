@@ -47,7 +47,9 @@ title = 'linutti'
     ordered = false
 
 [params]
-  description = ""
+  [params.meta]
+    description = ""
+    favicon = false
   [params.theme_config]
     appearance = ""
     back_home_text = ""
