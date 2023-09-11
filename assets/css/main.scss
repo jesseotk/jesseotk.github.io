@@ -24,27 +24,23 @@
 :root {
     --main-width: 680px;
     --nav-width: 680px;
-    --entry: rgb(46,46,51);
     --border-radius: 5px;
-    --theme: rgb(17,17,27);
-    --entry: rgb(46,46,51);
-    --primary: rgb(205,214,244);
-    --secondary: rgb(186,194,222);
-    --tertiary: rgb(166,173,200);
-    --link: rgb(249,226,175);
-    --button: rgb(255,124,113);
-    --content: rgb(196,196,196);
-    --hljs-bg: rgb(46,200,46);
-    --code-bg: rgb(49,50,68);
-    --border: rgb(51,51,51);
+    --theme: #020202;
+    --primary: #fff;
+    --secondary: #BFBFBF;
+    --tertiary: #8C8C8C;
+    --quaternary: #595959;
+    --w-accent: #01876C;
+    --s-accent: #00FF91;
+    --url: #0284F7;
 }
 
 .light {
-    --theme: rgb(220,224,232);
-    --primary: rgb(76,79,105);
-    --secondary: rgb(92,95,119);
-    --tertiary: rgb(108,111,133);
-    --link: rgb(30,102,245);
+    --theme: #fff;
+    --primary: #000;
+    --secondary: #595959;
+    --tertiary: #8C8C8C;
+    --quaternary: #BFBFBF;
 }
 
 // ------------------- NAVBAR ----------------- //
@@ -54,6 +50,7 @@
     max-width: var(--nav-width);
     margin: auto;
     overflow: hidden;
+    z-index: 1;
 }
 
 .topnav-container ul {
@@ -71,10 +68,14 @@
     margin: 0;
 }
 
+#menu a {
+    text-decoration: none;
+}
+
 #menu a:hover {
     text-decoration: underline;
     background: none;
-    color: var(--link);
+    color: var(--url);
 }
 
 // NAVBAR // --------------- THEME SWITCHER ------------- //
@@ -119,7 +120,26 @@ svg.sun path {
     height: 0;
     width: 0;
 }
+
+// ---------------- SCROLLBAR ---------------- //
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--theme);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 20px;
+  border: 3px solid var(--theme);
+}
+
 // ---------------- FRONT PAGE ---------------- //
+
 .fp-content h3 {
     text-align: center;
     padding: 10px 0;
@@ -143,75 +163,129 @@ svg.sun path {
 }
 
 
-// ------------------- LIST ------------------- //
+// ----------------- POST LIST ----------------- //
 ul#posts {
     list-style: none;
     padding: 0;
 }
 
 li#post {
-    padding: 10px;
-    margin: 0 0 10px 0;
+    padding: 0 0 10px 0;
+    margin: 25px 0 25px 0;
+    position: relative;
+    border-bottom: dotted 2px var(--quaternary);
 }
 
 #post p {
-    font-style: italic;
-    font-size: 14px;
-    padding: 0 0 0 10px; 
-    margin: 0 0 0 10px;
-    border-left: solid 1px var(--tertiary);
+    padding: 0 0 20px 0; 
+    margin: 0;
+}
+
+.post-title {
+    position: relative;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    color: var(--w-accent);
+    border-bottom: 3px dotted var(--w-accent);
+}
+
+.post-title:after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    display: block;
+    width: 100%;
+    border-bottom: 3px dotted var(--w-accent);
+}
+
+.post-title a {
+    color: var(--w-accent);
+    text-decoration: none;
+}
+
+.post-title a:hover {
+    color: var(--w-accent);
+}
+
+span.post-tags {
+    font-size: 12px;
+
+    & a {
+        color: var(--tertiary);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--url);
+            text-decoration: underline;
+        }
+    }
 }
 
 // ------------------ ARTICLE ----------------- //
 
+article {
+    text-align: justify;
+}
+
 article img {
-    width: 90%;
-    margin-bottom: 10px;
+    margin: 20px 0 20px 0;
     border-radius: var(--border-radius);
-}
-
-ul.post-tags {
-    list-style: none;
-    padding: 0;
-    font-size: 12px;
-}
-
-ul.post-tags li {
-    display: inline-block;
-}
-
-ul.post-tags li a {
-    padding: 2px 4px;
+    border: solid thin var(--quaternary); 
 }
 
 footer.post-footer {
     border-top: solid 1px var(--tertiary);
 }
 
-// -------------------------------------------- //
 // -------------------- TOC ------------------- //
 
 .toc {
     margin-top: 1rem;
     padding: 0.5rem;
-    border: thin solid var(--tertiary);
-    border-radius: var(--border-radius);
+    border: thin solid var(--w-accent);
 }
 
-// -------------------------------------------- //
+// -------------------- CODE ------------------ //
+
+.highlight pre {
+    border: solid thin var(--quaternary); 
+    background: var(--theme) !important;
+    padding: 1em;
+    overflow-x: auto; /* Fix pre content overflowing parent without scroll bar */
+}
+
+.highlight pre code {
+    color: var(--primary);
+}
+
+p code {
+    color: var(--s-accent);
+    background: var(--w-accent); 
+    font-size: 14px;
+    padding: 1px 4px;
+}
+
+code.has-jax {
+    -webkit-font-smoothing: antialiased;
+    background: inherit !important;
+    border: none !important;
+    font-size: 100%;
+}
+
+// ------------------- MAIN ------------------- //
 
 html, body { background: var(--theme); }
 
 html { height: 100%; }
 
 body {
-  color: var(--primary);
-  font-family: monospace;
-  font-size: 16px;
-  line-height: 1.4;
-  margin: 0;
-  min-height: 100%;
-  overflow-wrap: break-word;
+    color: var(--primary);
+    font-family: monospace;
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 0;
+    min-height: 100%;
+    overflow-wrap: break-word;
 }
 
 ::selection {
@@ -224,12 +298,12 @@ body {
 }
 
 .post-meta {
-    font-size: 10px;
-    border-bottom: solid 1px var(--tertiary);
-    margin: 0;
+    font-size: 12px;
+    margin: 20px 0 20px 0;
+    position: relative;
 }
 
-h2, h3, h4, h5, h6 { margin-top: 3rem; }
+h2, h3, h4, h5, h6 { margin-top: 2rem; }
 
 h1:hover .anchor,
 h2:hover .anchor,
@@ -238,7 +312,7 @@ h4:hover .anchor,
 h5:hover .anchor,
 h6:hover .anchor {
     display: inline-flex;
-    color: var(--link);
+    color: var(--url);
     margin-inline-start: 8px;
     font-weight: 500;
     user-select: none;
@@ -248,20 +322,17 @@ a.anchor:hover {
     text-decoration: underline;
 }
 
-.post-title {
-    margin-bottom: 10px;
-}
-
 hr { margin: 2rem 0; }
 
 p { margin: 1rem 0; }
 
 a {
-    color: var(--link);
-    text-decoration: none;
+    color: var(--primary);
+    text-decoration: underline;
 }
 
 a:hover {
+    color: var(--url);
     text-decoration: underline;
 }
 
@@ -277,23 +348,23 @@ li {
 }
 
 .w {
-  max-width: var(--main-width);
-  margin: 0 auto;
-  padding: 0.2rem 2rem;
+    max-width: var(--main-width);
+    margin: 0 auto;
+    padding: 0.2rem 2rem;
 }
 
 hr {
-  text-align: center;
-  border: 0;
+    text-align: center;
+    border: 0;
 
-  &:before { content: '/////' }
-  &:after { content: attr(data-content) '/////' }
+    &:before { content: '/////' }
+    &:after { content: attr(data-content) '/////' }
 }
 
-pre {
-  background: black;
-  padding: 1em;
-  overflow-x: auto; /* Fix pre content overflowing parent without scroll bar */
+table, th, td {
+    border: thin solid var(--tertiary);
+    border-collapse: collapse;
+    padding: 0.4rem;
 }
 
 table {
@@ -301,87 +372,85 @@ table {
     font-size: 12px;
 }
 
-table, th, td {
-  border: thin solid var(--tertiary);
-  border-collapse: collapse;
-  padding: 0.4rem;
-}
-
-p code {
-  color: white;
-  background: var(--code-bg); 
-  font-size: 14px;
-  padding: 1px 4px;
-  border-radius: var(--border-radius);
-}
-
-div pre {
-    border-radius: 6px;
-}
-
-code.has-jax {
-  -webkit-font-smoothing: antialiased;
-  background: inherit !important;
-  border: none !important;
-  font-size: 100%;
-}
-
 blockquote {
-  font-style: italic;
-  border-left: thin solid var(--primary);
-  padding: 1rem;
+    margin: 40px 0;
+    padding: 25px;
+    border-top: solid thin var(--w-accent);
+    border-bottom: solid thin var(--w-accent);
 
-  p { margin: 0; }
+  p { margin: 0; padding-bottom: 10px; }
+}
+
+blockquote p {
+    position: relative;
+}
+
+
+blockquote p:first-of-type:before {
+    content: ">";
+    display: block;
+    position: absolute;
+    left: -25px;
 }
 
 img {
-  max-width: 100%;
-  display: block;
-  margin: 0 auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
 }
 
 figcaption {
-  text-align: center;
-  opacity: 0.5;
+    text-align: center;
+    opacity: 0.5;
 }
 
 .js-only { display: none ; }
 
 input#search {
-  all: unset;
-  color: var(--primary);
-  padding: 0.4rem 0.6rem;
-  border: solid 1px var(--primary);
-  width: 100%;
+    all: unset;
+    color: var(--primary);
+    padding: 0.4rem 0.6rem;
+    border: solid 1px var(--primary);
+    width: 100%;
 }
 
 .search {
-  width: 100%;
-  position: relative;
-  display: flex;
+    width: 100%;
+    position: relative;
+    display: flex;
 }
 
 button#clear-search {
-  all: unset;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  height: 100%;
-  width: 60px;
-  padding-left: 8px;
-  color: var(--primary);
-  cursor: pointer;
+    all: unset;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    width: 60px;
+    padding-left: 8px;
+    color: var(--primary);
+    cursor: pointer;
 }
 button#clear-search:hover {
-  color: var(--secondary);
+    color: var(--secondary);
 }
 
+// ---------------- TAGS PAGE ----------------- //
+
+div.terms ul {
+    list-style: none;
+    padding: 0;
+}
 
 // --------------- BREADCRUMBS ---------------- //
 
 ol.breadcrumbs-list {
     list-style: none;
     padding: 0;
+}
+
+ol.breadcrumbs-list a {
+    text-decoration: none;
 }
 
 ol.breadcrumbs-list li {
@@ -399,4 +468,8 @@ ol.breadcrumbs-list a:hover {
 
 ol.breadcrumbs-list span:hover {
     text-decoration: underline;
+}
+
+.breadcrumbs-sep:hover {
+    text-decoration: none !important;
 }

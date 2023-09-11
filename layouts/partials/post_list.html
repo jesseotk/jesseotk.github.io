@@ -28,8 +28,13 @@
     <ul id="posts">
         {{- range $post := $posts -}}
         <li id="post">
-            <span>{{- ($post.Date | time.Format site.Params.theme_config.date_format) }}</span>
-            <a href="{{ $post.Permalink | relURL }}">{{ $post.Title }}</a>
+            <h1 class="post-title">
+                <a href="{{ $post.Permalink | relURL }}">{{ $post.Title }}</a>
+            </h1>
+            <div class="post-meta">
+                {{- partial "post_meta.html" . -}}
+            </div>
+
             {{- if not .Params.hidedescription -}}
                 {{- if .Params.description -}}
                 <p>{{ $post.Description }}</p>
@@ -37,6 +42,8 @@
                 <p>{{ $post.Summary }}{{ if .Truncated }}...{{ end }}</p>
                 {{ end }}
             {{ end }}
+
+            {{- partial "post_tags.html" . -}}
         </li>
         {{ end }}
         {{- if and .show_more $limit_exceeded }}

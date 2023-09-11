@@ -6,12 +6,13 @@ hidedescription: false
 date: {{ .Date }}
 tags: [""]
 category: [""]
-draft: true
-toc: true
+draft: false
+toc: false
 disableanchors: false
 disablebreadcrumbs: false
 disablereadingtime: false
-disablewordcount: false
+disablewordcount: true
+hidetags: false
 editPost:
     disabled: false
 ---
