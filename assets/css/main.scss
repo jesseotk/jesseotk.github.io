@@ -140,6 +140,35 @@ svg.sun path {
 
 // ---------------- FRONT PAGE ---------------- //
 
+.wrapper {
+    height: 10vh;
+    /*This part is important for centering*/
+    display: grid;
+    place-items: center;
+
+    & .type-title {
+        width: 23ch;
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 2.5em;
+        position: absolute;
+
+        &:after {
+            position: relative;
+            content: "_";
+            right: 25px;
+            animation: blink 1s steps(2, start) infinite;
+            font-weight: bold;
+        }
+    }
+}
+
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
 .fp-content h3 {
     text-align: center;
     padding: 10px 0;
