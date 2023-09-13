@@ -6,27 +6,24 @@
             {{ $.Site.Title }}
         </div>
     </div>
-    {{- if $.Site.Params.theme_config.show_description -}}
-        <p class="site-description">{{ $.Site.Params.description }}</p>
-    {{- end -}}
 </header>
 <div class="fp-content">
-    {{ .Content }}
-    {{ partial "menu_item.html" (dict "context" . "collection" $.Site.Data.menu.entries) }}
     <div class="fp-links">
-        <h3>////// LINKS //////</h3>
-        <ul>
-            <li><a href="https://www.github.com/linutti">Github</a></li>
-            <li><a href="https://tryhackme.com/p/linutti">THM</a></li>
-            <!-- <li><a href="https://app.hackthebox.com/profile/1550339">HTB</a></li> -->
-            <!-- <li><a href="https://hackerone.com/linutti?type=user">HackerOne</a></li> -->
+        <div class="contact-links">
+            <p>
+                github&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->&nbsp;&nbsp;<a href="https://www.github.com/jnotafk">Github</a><br>
+                tryhackme&nbsp;&nbsp;->&nbsp;&nbsp;<a href="https://tryhackme.com/p/linutti">THM</a><br>
+                <!-- <li><a href="https://app.hackthebox.com/profile/1550339">HTB</a></li> -->
+                <!-- <li><a href="https://hackerone.com/linutti?type=user">HackerOne</a></li> -->
+            </p>
+        </div>
     </div>
     <div class="fp-posts">
-        <h3>////// POSTS //////</h3>
+        <h3><a href="/posts">posts</a></h3>
         {{ partial "post_list.html" (dict "context" . "limit" "5" "show_more" "true" "show_more_text" "see all posts..." "show_more_url" "posts") }}
     </div>
     <div class="fp-rss">
-        <h3><a href="index.xml">////// RSS //////</a></h3>
+        <h3><a href="index.xml">rss</a></h3>
     </div>
 </div>
 

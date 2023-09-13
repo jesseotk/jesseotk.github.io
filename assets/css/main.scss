@@ -51,31 +51,30 @@
     margin: auto;
     overflow: hidden;
     z-index: 1;
-}
 
-.topnav-container ul {
-    list-style: none;
-    float: right;
-    margin: 0;
-    padding: 5px 5px;
-}
+    ul {
+        list-style: none;
+        float: right;
+        margin: 0;
+        padding: 5px 5px;
+    }
 
-.topnav-container a {
-    display: inline-block;
-    height: 100%;
-    font-size: 12px;
-    padding: 2px 4px;
-    margin: 0;
+    a {
+        display: inline-block;
+        height: 100%;
+        padding: 2px 4px;
+        margin: 0;
+    }
 }
 
 #menu a {
     text-decoration: none;
-}
 
-#menu a:hover {
-    text-decoration: underline;
-    background: none;
-    color: var(--url);
+    &:hover {
+        text-decoration: underline;
+        background: none;
+        color: var(--url);
+    }
 }
 
 // NAVBAR // --------------- THEME SWITCHER ------------- //
@@ -100,20 +99,20 @@ input:not(:checked) + label svg.moon {
 
 label {
     cursor: pointer;
-}
 
-label svg {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    padding: 5px;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-}
+    svg {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        padding: 5px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
 
-svg.sun path {
-    fill: var(--primary);
+        &.sun path {
+            fill: var(--primary);
+        }
+    }
 }
 
 #ChangeTheme {
@@ -141,22 +140,19 @@ svg.sun path {
 // ---------------- FRONT PAGE ---------------- //
 
 .wrapper {
-    height: 10vh;
-    /*This part is important for centering*/
+    height: 5vh;
+    margin: 15px 0;
     display: grid;
     place-items: center;
 
     & .type-title {
-        width: 23ch;
-        white-space: nowrap;
         overflow: hidden;
-        font-size: 2.5em;
-        position: absolute;
+        font-size: 2em;
 
         &:after {
             position: relative;
             content: "_";
-            right: 25px;
+            right: 15px;
             animation: blink 1s steps(2, start) infinite;
             font-weight: bold;
         }
@@ -169,45 +165,45 @@ svg.sun path {
     }
 }
 
-.fp-content h3 {
+.fp-content {
+
+    h3 {
+        text-align: center;
+        padding: 10px 0;
+        margin: 10px 0;
+    }
+}
+
+.fp-links {
+    display: block;
     text-align: center;
-    padding: 10px 0;
-    margin: 10px 0;
-}
 
-.fp-links ul {
-    text-align: center;
-    list-style: none;
-    padding: 0;
-}
+    .contact-links {
+        display: inline-block;
 
-.fp-links ul li {
-    display: inline-block;
-    padding: 5px;
-    margin: 0 5px;
+        p {
+            text-align: left;
+        }
+    }
 }
-
-.fp-links ul li a {
-    padding: 6px 12px;
-}
-
 
 // ----------------- POST LIST ----------------- //
-ul#posts {
+#posts {
     list-style: none;
     padding: 0;
-}
-
-li#post {
-    padding: 0 0 10px 0;
-    margin: 25px 0 25px 0;
-    position: relative;
-    border-bottom: dotted 2px var(--quaternary);
-}
-
-#post p {
-    padding: 0 0 20px 0; 
     margin: 0;
+
+    #post {
+        padding: 0 0 10px 0;
+        margin: 0 0 25px 0;
+        position: relative;
+        border-bottom: dotted 2px var(--quaternary);
+
+        p {
+            padding: 0 0 20px 0; 
+            margin: 0;
+        }
+    }
 }
 
 .post-title {
@@ -216,24 +212,25 @@ li#post {
     font-size: 1.4rem;
     color: var(--w-accent);
     border-bottom: 3px dotted var(--w-accent);
-}
 
-.post-title:after {
-    content: "";
-    position: absolute;
-    bottom: -8px;
-    display: block;
-    width: 100%;
-    border-bottom: 3px dotted var(--w-accent);
-}
+    a {
+        color: var(--w-accent);
+        text-decoration: none;
 
-.post-title a {
-    color: var(--w-accent);
-    text-decoration: none;
-}
+        &:hover {
+            color: var(--w-accent);
+            text-decoration: none;
+        }
+    }
 
-.post-title a:hover {
-    color: var(--w-accent);
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        display: block;
+        width: 100%;
+        border-bottom: 3px dotted var(--w-accent);
+    }
 }
 
 span.post-tags {
@@ -254,19 +251,19 @@ span.post-tags {
 
 article {
     text-align: justify;
-}
 
-article img {
-    margin: 20px 0 20px 0;
-    border-radius: var(--border-radius);
-    border: solid thin var(--quaternary); 
+    & img {
+        margin: 20px 0 20px 0;
+        border-radius: var(--border-radius);
+        border: solid thin var(--quaternary); 
+    }
 }
 
 footer.post-footer {
     border-top: solid 1px var(--tertiary);
 }
 
-// -------------------- TOC ------------------- //
+// ARTICLE // -------------------- TOC ------------------- //
 
 .toc {
     margin-top: 1rem;
@@ -274,7 +271,7 @@ footer.post-footer {
     border: thin solid var(--w-accent);
 }
 
-// -------------------- CODE ------------------ //
+// ARTICLE // -------------------- CODE ------------------ //
 
 .highlight pre {
     border: solid thin var(--quaternary); 
@@ -285,6 +282,7 @@ footer.post-footer {
 
 .highlight pre code {
     color: var(--primary);
+    font-size: 14px;
 }
 
 p code {
@@ -309,7 +307,7 @@ html { height: 100%; }
 
 body {
     color: var(--primary);
-    font-family: monospace;
+    font-family: 'Ubuntu Mono', monospace;
     font-size: 16px;
     line-height: 1.4;
     margin: 0;
@@ -407,19 +405,18 @@ blockquote {
     border-top: solid thin var(--w-accent);
     border-bottom: solid thin var(--w-accent);
 
-  p { margin: 0; padding-bottom: 10px; }
-}
+    p {
+        margin: 0;
+        padding-bottom: 10px;
+        position: relative;
 
-blockquote p {
-    position: relative;
-}
-
-
-blockquote p:first-of-type:before {
-    content: ">";
-    display: block;
-    position: absolute;
-    left: -25px;
+        &:first-of-type:before {
+            content: ">";
+            display: block;
+            position: absolute;
+            left: -25px;
+        }
+    }
 }
 
 img {
@@ -476,10 +473,10 @@ div.terms ul {
 ol.breadcrumbs-list {
     list-style: none;
     padding: 0;
-}
 
-ol.breadcrumbs-list a {
-    text-decoration: none;
+    a {
+        text-decoration: none;
+    }
 }
 
 ol.breadcrumbs-list li {
