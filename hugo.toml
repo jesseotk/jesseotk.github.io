@@ -48,7 +48,7 @@ title = 'Where I stay up late.'
 
 [params]
   [params.meta]
-    description = ""
+    description = "test"
     favicon = false
   [params.theme_config]
     appearance = ""
