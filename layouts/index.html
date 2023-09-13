@@ -1,7 +1,11 @@
 {{ define "main" }}
 
 <header>
-    <h1>{{ $.Site.Title }}</h1>
+    <div class="wrapper">
+        <div class="type-title">
+            {{ $.Site.Title }}
+        </div>
+    </div>
     {{- if $.Site.Params.theme_config.show_description -}}
         <p class="site-description">{{ $.Site.Params.description }}</p>
     {{- end -}}
