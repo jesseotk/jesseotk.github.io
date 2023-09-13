@@ -152,7 +152,6 @@ label {
         &:after {
             position: relative;
             content: "_";
-            right: 15px;
             animation: blink 1s steps(2, start) infinite;
             font-weight: bold;
         }
