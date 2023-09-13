@@ -1,6 +1,6 @@
-baseURL = 'http://linutti.com/'
+baseURL = 'http://whereistayuplate.com/'
 languageCode = 'en-us'
-title = 'linutti'
+title = 'Where I Stay Up Late'
 [module]
   [module.hugoVersion]
     extended=true
