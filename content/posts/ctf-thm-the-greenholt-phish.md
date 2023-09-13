@@ -5,7 +5,7 @@ hidedescription: false
 date: 2023-08-16T02:24:38+03:00
 tags: ["ctf", "writeup"]
 category: ["blog"]
-author: "linutti"
+author: "jnotafk"
 draft: false
 toc: true
 disableanchors: false
