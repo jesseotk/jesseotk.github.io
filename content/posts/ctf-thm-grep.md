@@ -1,7 +1,7 @@
 ---
 title: "CTF writeup: Grep (TryHackMe)"
 description: "This is my writeup of the recently released CTF challenge on TryHackMe called \"Grep\". As usual, follow along in case you get stuck on any of the questions!"
-author: "linutti"
+author: "jnotafk"
 hidedescription: false
 date: 2023-08-21T22:27:58+03:00
 tags: ["ctf", "writeup"]

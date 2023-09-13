@@ -1,3 +1,3 @@
 ---
-title: "home"
+title: "Home"
 ---
