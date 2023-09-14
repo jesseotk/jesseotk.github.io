@@ -5,7 +5,7 @@ description: "Writeup of the recently launched CTF challenge called \"Snapped Ph
 date: 2023-07-28T00:00:00+00:00
 tags: ["ctf", "writeup"]
 category: ["blog"]
-author: "jnotafk"
+author: "jesseotk"
 toc: true
 draft: false
 disableanchors: false

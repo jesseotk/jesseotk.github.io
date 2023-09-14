@@ -1,7 +1,7 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
 description: "Description here"
-author: "jnotafk"
+author: "jesseotk"
 hidedescription: false
 date: {{ .Date }}
 tags: [""]
