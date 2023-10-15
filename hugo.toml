@@ -1,6 +1,6 @@
 baseURL = 'http://whereistayuplate.com/'
 languageCode = 'en-us'
-title = 'Where I stay up late.'
+title = 'where I stay up late'
 [module]
   [module.hugoVersion]
     extended=true
