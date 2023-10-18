@@ -26,6 +26,7 @@
     --nav-width: 680px;
     --border-radius: 5px;
     --theme: #020202;
+    --themet: #02020275;
     --primary: #fff;
     --secondary: #BFBFBF;
     --tertiary: #8C8C8C;
@@ -36,7 +37,8 @@
 }
 
 .light {
-    --theme: #fff;
+    --theme: #f2f2f2;
+    --themet: #f2f2f275;
     --primary: #000;
     --secondary: #595959;
     --tertiary: #8C8C8C;
@@ -46,24 +48,32 @@
 // ------------------- NAVBAR ----------------- //
 
 .topnav-container {
-    position: relative;
-    max-width: var(--nav-width);
-    margin: auto;
-    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: var(--themet);
+    backdrop-filter: blur(4px);
     z-index: 1;
 
-    ul {
-        list-style: none;
-        float: right;
-        margin: 0;
-        padding: 5px 5px;
-    }
+    .nav-container {
+        position: relative;
+        max-width: var(--nav-width);
+        margin: auto;
+        overflow: hidden;
 
-    a {
-        display: inline-block;
-        height: 100%;
-        padding: 2px 4px;
-        margin: 0;
+        ul {
+            list-style: none;
+            float: right;
+            margin: 0;
+            padding: 5px 5px;
+        }
+
+        a {
+            display: inline-block;
+            height: 100%;
+            padding: 2px 4px;
+            margin: 0;
+        }
     }
 }
 
@@ -375,7 +385,8 @@ li {
 .w {
     max-width: var(--main-width);
     margin: 0 auto;
-    padding: 0.2rem 2rem;
+    padding: 2rem 1rem;
+    z-index: 0;
 }
 
 hr {
