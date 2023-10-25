@@ -52,7 +52,8 @@
     width: 100%;
     top: 0;
     background: var(--themet);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 1;
 
     .nav-container {
@@ -286,6 +287,7 @@ footer.post-footer {
     background: var(--theme) !important;
     padding: 1em;
     overflow-x: auto; /* Fix pre content overflowing parent without scroll bar */
+    display: flex;
 }
 
 .highlight pre code {
