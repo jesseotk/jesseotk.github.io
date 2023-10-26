@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Fira Code';
+  src: url('/fonts/FiraCode-VF.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cozette';
+  src: url('/fonts/CozetteVector.woff2') format('woff2');
+}
 // -------------- THEME SWITCHER -------------- //
 //@mixin dark-appearance {
 //  filter: invert(1);
@@ -27,18 +35,20 @@
     --border-radius: 5px;
     --theme: #020202;
     --themet: #02020275;
-    --primary: #fff;
+    --primary: #FFF;
     --secondary: #BFBFBF;
     --tertiary: #8C8C8C;
     --quaternary: #595959;
-    --w-accent: #01876C;
-    --s-accent: #00FF91;
+    --w-accent: #2C232F;
+    --s-accent: #DCAEEA;
+    --d-accent: #84688c;
+    --code-theme: #020202;
     --url: #0284F7;
 }
 
 .light {
-    --theme: #f2f2f2;
-    --themet: #f2f2f275;
+    --theme: #F2F2F2;
+    --themet: #F2F2F275;
     --primary: #000;
     --secondary: #595959;
     --tertiary: #8C8C8C;
@@ -72,20 +82,15 @@
         a {
             display: inline-block;
             height: 100%;
-            padding: 2px 4px;
+            padding: 2px 8px;
             margin: 0;
         }
     }
 }
 
 #menu a {
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-        background: none;
-        color: var(--url);
-    }
+    font-size: 1.2rem;
+    font-family: Cozette;
 }
 
 // NAVBAR // --------------- THEME SWITCHER ------------- //
@@ -151,13 +156,14 @@ label {
 // ---------------- FRONT PAGE ---------------- //
 
 .wrapper {
-    margin: 10px 0;
+    padding-bottom: 10px;
     display: grid;
     place-items: center;
 
     & .type-title {
         overflow: hidden;
-        font-size: 2em;
+        font-size: 2rem;
+        font-family: Cozette;
 
         &:after {
             position: relative;
@@ -206,10 +212,10 @@ label {
         padding: 0 0 10px 0;
         margin: 0 0 25px 0;
         position: relative;
-        border-bottom: dotted 2px var(--quaternary);
+        border-bottom: solid 1px var(--w-accent);
 
         p {
-            padding: 0 0 20px 0; 
+            padding: 20px 0 20px 0; 
             margin: 0;
         }
     }
@@ -218,19 +224,10 @@ label {
 .post-title {
     position: relative;
     margin-bottom: 10px;
+    font-family: Cozette;
     font-size: 1.4rem;
-    color: var(--w-accent);
-    border-bottom: 3px dotted var(--w-accent);
-
-    a {
-        color: var(--w-accent);
-        text-decoration: none;
-
-        &:hover {
-            color: var(--w-accent);
-            text-decoration: none;
-        }
-    }
+    font-weight: bold;
+    color: var(--d-accent);
 
     &:after {
         content: "";
@@ -238,22 +235,11 @@ label {
         bottom: -8px;
         display: block;
         width: 100%;
-        border-bottom: 3px dotted var(--w-accent);
     }
 }
 
 span.post-tags {
     font-size: 12px;
-
-    & a {
-        color: var(--tertiary);
-        text-decoration: none;
-
-        &:hover {
-            color: var(--url);
-            text-decoration: underline;
-        }
-    }
 }
 
 // ------------------ ARTICLE ----------------- //
@@ -262,43 +248,51 @@ article {
     text-align: justify;
 
     & img {
-        margin: 20px 0 20px 0;
-        border-radius: var(--border-radius);
-        border: solid thin var(--quaternary); 
+        margin: 25px auto;
+        max-width: 95%;
+        display: block;
+        margin: 0 auto;
     }
+}
+
+header {
+    padding-top: 25px;
 }
 
 footer.post-footer {
     border-top: solid 1px var(--tertiary);
+    padding: 5px 0;
 }
 
 // ARTICLE // -------------------- TOC ------------------- //
 
 .toc {
-    margin-top: 1rem;
-    padding: 0.5rem;
-    border: thin solid var(--w-accent);
+    padding: 2em 1em;
+    //border: thin solid var(--quaternary);
 }
 
 // ARTICLE // -------------------- CODE ------------------ //
 
 .highlight pre {
     border: solid thin var(--quaternary); 
-    background: var(--theme) !important;
+    //border-bottom: solid thin var(--quaternary); 
+    background: var(--code-theme) !important;
     padding: 1em;
     overflow-x: auto; /* Fix pre content overflowing parent without scroll bar */
     display: flex;
 }
 
 .highlight pre code {
-    color: var(--primary);
-    font-size: 14px;
+    //color: var(--primary);
+    font-family: Cozette, 'Ubuntu Mono', monospace;
+    font-size: 16px;
 }
 
 p code {
     color: var(--s-accent);
     background: var(--w-accent); 
-    font-size: 14px;
+    font-family: Cozette, 'Ubuntu Mono', monospace;
+    font-size: 16px;
     padding: 1px 4px;
 }
 
@@ -317,8 +311,8 @@ html { height: 100%; }
 
 body {
     color: var(--primary);
-    font-family: 'Ubuntu Mono', monospace;
-    font-size: 16px;
+    font-family: 'Fira Code', 'Ubuntu Mono', monospace;
+    font-size: 1rem;
     line-height: 1.4;
     margin: 0;
     min-height: 100%;
@@ -335,12 +329,13 @@ body {
 }
 
 .post-meta {
-    font-size: 12px;
-    margin: 20px 0 20px 0;
+    font-size: 0.8rem;
     position: relative;
 }
 
-h2, h3, h4, h5, h6 { margin-top: 2rem; }
+h2, h3, h4, h5, h6 {
+    margin-top: 2rem;
+}
 
 h1:hover .anchor,
 h2:hover .anchor,
@@ -348,15 +343,16 @@ h3:hover .anchor,
 h4:hover .anchor,
 h5:hover .anchor,
 h6:hover .anchor {
-    display: inline-flex;
-    color: var(--url);
-    margin-inline-start: 8px;
-    font-weight: 500;
-    user-select: none;
+    visibility: visible;
+    text-decoration: none;
 }
 
-a.anchor:hover {
-    text-decoration: underline;
+.anchor {
+    visibility: hidden;
+    margin-inline-start: 4px;
+    display: inline-flex;
+    font-weight: 900;
+    user-select: none;
 }
 
 hr { margin: 2rem 0; }
@@ -364,13 +360,16 @@ hr { margin: 2rem 0; }
 p { margin: 1rem 0; }
 
 a {
+    padding: 4px 4px 0px 4px;
     color: var(--primary);
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: solid 3px var(--w-accent);
 }
 
 a:hover {
-    color: var(--url);
-    text-decoration: underline;
+    color: var(--s-accent);
+    text-decoration: none;
+    background: var(--w-accent);
 }
 
 ul {
@@ -430,12 +429,6 @@ blockquote {
     }
 }
 
-img {
-    max-width: 100%;
-    display: block;
-    margin: 0 auto;
-}
-
 figcaption {
     text-align: center;
     opacity: 0.5;
@@ -492,11 +485,12 @@ ol.breadcrumbs-list {
 
 ol.breadcrumbs-list li {
     display: inline;
-    font-size: 12px;
+    font-size: 0.8rem;
 }
 
 li.breadcrumbs-active a {
     font-weight: bold;
+    font-size: 0.8rem;
 }
 
 ol.breadcrumbs-list a:hover {

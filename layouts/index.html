@@ -17,8 +17,7 @@
         </div>
     </div>
     <div class="fp-posts">
-        <h3><a href="/posts">posts</a></h3>
-        {{ partial "post_list.html" (dict "context" . "limit" "5" "show_more" "true" "show_more_text" "see all posts..." "show_more_url" "posts") }}
+        {{ partial "post_list.html" (dict "context" . "limit" "5" "show_more" "true" "show_more_text" "all posts →" "show_more_url" "posts") }}
     </div>
     <div class="fp-rss">
         <h3><a href="index.xml">rss</a></h3>
