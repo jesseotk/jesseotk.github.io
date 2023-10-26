@@ -39,7 +39,7 @@ title = 'where I stay up late'
     lineNumbersInTable = true
     noClasses = true
     noHl = false
-    style = 'rose-pine'
+    style = 'doom-one2'
     tabWidth = 4
   [markup.tableOfContents]
     startLevel = 2
