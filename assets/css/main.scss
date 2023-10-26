@@ -225,9 +225,8 @@ label {
     position: relative;
     margin-bottom: 10px;
     font-family: Cozette;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: bold;
-    color: var(--d-accent);
 
     &:after {
         content: "";
@@ -268,8 +267,21 @@ footer.post-footer {
 
 .toc {
     padding: 2em 1em;
-    //border: thin solid var(--quaternary);
+
+    .details {
+        padding: 4px 4px 0 4px;
+        border-bottom: solid 3px var(--w-accent);
+
+        &:hover {
+            cursor: pointer;
+            color: var(--s-accent);
+            background: var(--w-accent);
+        }
+    }
 }
+
+
+
 
 // ARTICLE // -------------------- CODE ------------------ //
 
