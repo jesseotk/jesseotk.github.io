@@ -6,27 +6,6 @@
   font-family: 'Cozette';
   src: url('/fonts/CozetteVector.woff2') format('woff2');
 }
-// -------------- THEME SWITCHER -------------- //
-//@mixin dark-appearance {
-//  filter: invert(1);
-//  img {
-//    filter: invert(1);
-//
-//    &.ioda { filter: invert(0); }
-//  }
-//}
-//
-//body[a="dark"] { @include dark-appearance; }
-//
-//
-//@media (prefers-color-scheme: dark) {
-//  body[a="auto"] { @include dark-appearance; }
-//}
-// -------------------------------------------- //
-
-// bg color is also needed in html in order to
-// block body's background propagation
-// see: https://stackoverflow.com/a/61265706
 
 // --------------- SET VARIABLES -------------- //
 :root {
@@ -266,8 +245,7 @@ footer.post-footer {
 // ARTICLE // -------------------- TOC ------------------- //
 
 .toc {
-    padding: 2em 1em;
-
+    padding: 0.4em 0;
     .details {
         padding: 4px 4px 0 4px;
         border-bottom: solid 3px var(--w-accent);
@@ -340,9 +318,19 @@ body {
     background: var(--tertiary);
 }
 
-.post-meta {
+.post-meta{
     font-size: 0.8rem;
     position: relative;
+    padding-left: 2em;
+    color: var(--tertiary);
+
+    &:before {
+        content: "// ";
+    }
+
+    a {
+        color: var(--tertiary);
+    }
 }
 
 h2, h3, h4, h5, h6 {

